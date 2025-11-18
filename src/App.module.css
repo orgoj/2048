@@ -26,81 +26,8 @@
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-lg);
-  padding-bottom: var(--spacing-3xl);
-}
-
-/* ==================== TOP BAR (Header + Theme Switcher) ==================== */
-
-.topBar {
-  display: flex;
-  flex-direction: column;
   gap: var(--spacing-md);
-  width: 100%;
-}
-
-.themeSwitcher {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--spacing-sm);
-  padding: var(--spacing-sm);
-  background: var(--bg-container);
-  border-radius: var(--radius-lg);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.themeLabel {
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-semibold);
-  color: var(--text-secondary);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.themeSelect {
-  padding: var(--spacing-xs) var(--spacing-md);
-  background: var(--bg-page);
-  color: var(--text-primary);
-  border: 2px solid var(--border-color);
-  border-radius: var(--radius-md);
-  font-size: var(--font-size-base);
-  font-weight: var(--font-weight-medium);
-  cursor: pointer;
-  outline: none;
-  transition: all var(--transition-fast);
-  min-width: 150px;
-}
-
-.themeSelect:hover {
-  border-color: var(--btn-primary-bg);
-}
-
-.themeSelect:focus {
-  border-color: var(--btn-primary-bg);
-  box-shadow: 0 0 0 3px rgba(143, 122, 102, 0.1);
-}
-
-/* ==================== INSTRUCTIONS ==================== */
-
-.instructions {
-  background: rgba(var(--bg-game-board-rgb, 187, 173, 160), 0.15);
-  border-radius: var(--radius-lg, 8px);
-  padding: var(--spacing-md, 0.75rem) var(--spacing-lg, 1rem);
-  border-left: 4px solid var(--border-color);
-  text-align: center;
-}
-
-.instructionText {
-  margin: 0;
-  font-size: var(--font-size-sm, 0.875rem);
-  color: var(--text-primary);
-  font-weight: var(--font-weight-normal, 400);
-}
-
-.instructionText strong {
-  font-weight: var(--font-weight-bold, 700);
-  color: var(--text-secondary);
+  padding-bottom: var(--spacing-2xl);
 }
 
 /* ==================== SHARE TOAST ==================== */
@@ -232,62 +159,53 @@
 /* ==================== FOOTER ==================== */
 
 .footer {
-  margin-top: auto;
-  padding: var(--spacing-xl) var(--spacing-md);
+  margin-top: var(--spacing-xl);
+  padding: var(--spacing-lg) 0;
   width: 100%;
   max-width: 600px;
-  border-top: 1px solid var(--border-color);
 }
 
 .footerContent {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: var(--spacing-md);
-  text-align: center;
-}
-
-.footerContent p {
-  margin: 0;
-  font-size: var(--font-size-sm);
-  color: var(--text-secondary);
+  justify-content: center;
 }
 
 .footerLinks {
   display: flex;
   align-items: center;
   gap: var(--spacing-md);
-  flex-wrap: wrap;
   justify-content: center;
 }
 
 .footerLink {
   display: inline-flex;
   align-items: center;
-  gap: var(--spacing-xs);
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-medium);
-  color: var(--text-primary);
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  color: var(--text-secondary);
   text-decoration: none;
-  transition:
-    color var(--transition-fast),
-    transform var(--transition-fast);
+  transition: all var(--transition-fast);
+  border-radius: var(--radius-md);
+  background: transparent;
 }
 
 .footerLink:hover {
   color: var(--btn-primary-bg);
-  transform: translateY(-1px);
+  background: var(--bg-container);
+  transform: translateY(-2px);
 }
 
 .footerLink svg {
-  width: 20px;
-  height: 20px;
-  fill: currentColor;
+  width: 24px;
+  height: 24px;
+  stroke-width: 2;
 }
 
 .footerSeparator {
-  color: var(--text-secondary);
-  font-weight: var(--font-weight-bold);
+  color: var(--border-color);
+  font-size: var(--font-size-sm);
 }
 
 /* ==================== RESPONSIVE DESIGN ==================== */
@@ -300,17 +218,7 @@
   }
 
   .container {
-    gap: var(--spacing-xl);
-  }
-
-  .topBar {
-    flex-direction: row;
-    align-items: flex-start;
-    justify-content: space-between;
-  }
-
-  .themeSwitcher {
-    width: auto;
+    gap: var(--spacing-lg);
   }
 
   .shareToast {
@@ -319,12 +227,6 @@
 
   .modalContent {
     max-height: 85vh;
-  }
-
-  .footerContent {
-    flex-direction: row;
-    justify-content: space-between;
-    text-align: left;
   }
 }
 
@@ -355,17 +257,7 @@
   }
 
   .container {
-    gap: var(--spacing-md);
-  }
-
-  .themeSwitcher {
-    padding: var(--spacing-xs);
-  }
-
-  .themeSelect {
-    font-size: var(--font-size-sm);
-    padding: var(--spacing-xs) var(--spacing-sm);
-    min-width: 130px;
+    gap: var(--spacing-sm);
   }
 
   .shareToast {
@@ -383,17 +275,13 @@
   }
 
   .container {
-    gap: var(--spacing-sm);
-    padding-bottom: var(--spacing-lg);
-  }
-
-  .topBar {
-    flex-direction: row;
-    align-items: center;
+    gap: var(--spacing-xs);
+    padding-bottom: var(--spacing-md);
   }
 
   .footer {
-    padding: var(--spacing-md);
+    padding: var(--spacing-sm) 0;
+    margin-top: var(--spacing-md);
   }
 }
 
@@ -401,13 +289,12 @@
 
 /* High contrast mode */
 @media (prefers-contrast: high) {
-  .themeSwitcher,
   .modalContent {
     border: 2px solid currentColor;
   }
 
-  .themeSelect {
-    border-width: 3px;
+  .footerLink {
+    border: 1px solid currentColor;
   }
 }
 
@@ -424,7 +311,6 @@
 }
 
 /* Focus visible */
-.themeSelect:focus-visible,
 .modalClose:focus-visible,
 .footerLink:focus-visible {
   outline: 2px solid var(--btn-primary-bg);
@@ -453,10 +339,6 @@
     0 0 10px rgba(255, 0, 255, 0.2);
 }
 
-[data-theme='neon'] .themeSwitcher {
-  box-shadow: 0 2px 12px rgba(255, 0, 255, 0.2);
-}
-
 /* ==================== OCEAN THEME SPECIFIC ADJUSTMENTS ==================== */
 
 [data-theme='ocean'] .shareToast {
@@ -465,17 +347,12 @@
     0 0 10px rgba(0, 119, 190, 0.2);
 }
 
-[data-theme='ocean'] .themeSwitcher {
-  box-shadow: 0 2px 12px rgba(0, 119, 190, 0.2);
-}
-
 /* ==================== PRINT STYLES ==================== */
 
 @media print {
   .shareToast,
   .modalOverlay,
-  .footer,
-  .themeSwitcher {
+  .footer {
     display: none !important;
   }
 
