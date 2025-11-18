@@ -27,9 +27,7 @@
 
 ## Live Demo
 
-Play the game online: [https://your-username.github.io/2048](https://your-username.github.io/2048)
-
-*(Replace with your actual GitHub Pages URL)*
+Play the game online: [https://orgoj.github.io/2048](https://orgoj.github.io/2048)
 
 ## Screenshots
 
@@ -173,7 +171,7 @@ https://your-domain.com/2048#size=5&target=8192&spawn=2:0.5,4:0.3,8:0.2
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/your-username/2048.git
+   git clone https://github.com/orgoj/2048.git
    cd 2048
    ```
 
@@ -354,13 +352,13 @@ After deployment (automatic or manual):
 
 1. **Visit your game:**
    ```
-   https://[username].github.io/2048/
+   https://orgoj.github.io/2048/
    ```
 
 2. **Test URL configuration:**
    ```
-   https://[username].github.io/2048/#size=5&theme=dark
-   https://[username].github.io/2048/#size=6&target=4096&theme=neon&mode=zen
+   https://orgoj.github.io/2048/#size=5&theme=dark
+   https://orgoj.github.io/2048/#size=6&target=4096&theme=neon&mode=zen
    ```
 
 3. **Check GitHub Actions tab** to see deployment status
@@ -550,7 +548,7 @@ Contributions are welcome! Please follow these steps:
 
 1. **Fork the repository**
    ```bash
-   git clone https://github.com/your-username/2048.git
+   git clone https://github.com/orgoj/2048.git
    ```
 
 2. **Create a feature branch**
