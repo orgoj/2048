@@ -61,7 +61,7 @@ export const THEMES: ThemeConfig[] = [
 /**
  * Default theme
  */
-const DEFAULT_THEME: Theme = 'classic'
+const DEFAULT_THEME: Theme = 'ocean'
 
 /**
  * Apply theme to document root
