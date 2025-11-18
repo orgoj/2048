@@ -139,7 +139,7 @@ function migrateLegacyTheme(legacyTheme: 'light' | 'dark' | 'auto' | string): Th
     case 'auto':
       // Auto mode: default to ocean
       return 'ocean'
-    default:
+    default: {
       // Check if it's already a valid new theme
       const validThemes: Theme[] = [
         'classic',
@@ -156,6 +156,7 @@ function migrateLegacyTheme(legacyTheme: 'light' | 'dark' | 'auto' | string): Th
         return legacyTheme as Theme
       }
       return DEFAULT_THEME
+    }
   }
 }
 

@@ -6,7 +6,7 @@
  */
 
 import { useState, useEffect, useCallback } from 'react'
-import { Header, Grid, Controls, GameModal, Settings, Stats } from './components'
+import { Header, Grid, Controls, GameModal, ShareModal, Settings, Stats } from './components'
 import {
   useGame,
   useKeyboard,
@@ -40,8 +40,8 @@ export default function App() {
   // Modal state
   const [activeModal, setActiveModal] = useState<ModalType>(null)
 
-  // Share/copy state
-  const [shareMessage, setShareMessage] = useState<string | null>(null)
+  // Share modal state
+  const [shareModalOpen, setShareModalOpen] = useState(false)
 
   // High scores - initialize from storage
   const [highScores, setHighScores] = useState<HighScoreEntry[]>(() => getAllHighScores())
@@ -156,17 +156,12 @@ export default function App() {
 
   // ==================== Share Handler ====================
 
-  const handleShare = useCallback(async () => {
-    const url = window.location.href
-    try {
-      await navigator.clipboard.writeText(url)
-      setShareMessage('URL copied to clipboard!')
-      setTimeout(() => setShareMessage(null), 3000)
-    } catch (err) {
-      console.error('Failed to copy URL:', err)
-      setShareMessage('Failed to copy URL')
-      setTimeout(() => setShareMessage(null), 3000)
-    }
+  const handleShare = useCallback(() => {
+    setShareModalOpen(true)
+  }, [])
+
+  const closeShareModal = useCallback(() => {
+    setShareModalOpen(false)
   }, [])
 
   // ==================== Render ====================
@@ -213,20 +208,8 @@ export default function App() {
           </p>
         </div>
 
-        {/* Share Message Toast */}
-        {shareMessage && (
-          <div className={styles.shareToast}>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M5 13l4 4L19 7"
-              />
-            </svg>
-            {shareMessage}
-          </div>
-        )}
+        {/* Share Modal */}
+        <ShareModal isOpen={shareModalOpen} onClose={closeShareModal} url={window.location.href} />
 
         {/* Game Over/Win Modal */}
         {(isGameOver || hasWon) && gameState.status !== GameStatus.Playing && (

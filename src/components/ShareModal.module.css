@@ -1,0 +1,299 @@
+/* Backdrop overlay */
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Modal container */
+.modal {
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  background: var(--bg-page);
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  animation: slideUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  outline: none;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Close button */
+.closeButton {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  border-radius: 50%;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.closeButton:hover {
+  background: var(--bg-cell-empty);
+  color: var(--text-primary);
+  transform: scale(1.1);
+}
+
+.closeButton:active {
+  transform: scale(0.95);
+}
+
+/* Icon container */
+.iconContainer {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--btn-primary-bg);
+  border-radius: 50%;
+  box-shadow: var(--shadow-tile);
+}
+
+.icon {
+  width: 40px;
+  height: 40px;
+  stroke: var(--btn-primary-text);
+}
+
+/* Title */
+.title {
+  margin: 0 0 1rem;
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--text-heading);
+  text-align: center;
+  line-height: 1.2;
+}
+
+/* Message */
+.message {
+  margin: 0 0 1.5rem;
+  font-size: 1rem;
+  color: var(--text-secondary);
+  text-align: center;
+  line-height: 1.5;
+}
+
+/* URL container */
+.urlContainer {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+  align-items: stretch;
+}
+
+.urlInput {
+  flex: 1;
+  padding: 0.875rem 1rem;
+  background: var(--bg-cell-empty);
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  font-family: 'Courier New', monospace;
+  font-size: 0.875rem;
+  color: var(--text-primary);
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.urlInput:focus {
+  border-color: var(--btn-primary-bg);
+  box-shadow: 0 0 0 3px rgba(var(--btn-primary-bg), 0.1);
+  background: var(--bg-page);
+}
+
+.copyButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.875rem 1.5rem;
+  background: var(--btn-primary-bg);
+  color: var(--btn-primary-text);
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  box-shadow: var(--shadow-tile);
+}
+
+.copyButton:hover {
+  background: var(--btn-primary-hover);
+  box-shadow: var(--shadow-tile-hover);
+  transform: translateY(-2px);
+}
+
+.copyButton:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.copyButtonSuccess {
+  background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%) !important;
+  animation: successPulse 0.5s ease-out;
+}
+
+@keyframes successPulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+.buttonIcon {
+  width: 20px;
+  height: 20px;
+  stroke: currentColor;
+}
+
+/* Info box */
+.infoBox {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 1rem;
+  background: var(--bg-cell-empty);
+  border-radius: 8px;
+  border-left: 4px solid var(--border-color);
+}
+
+.infoIcon {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  stroke: var(--text-secondary);
+  margin-top: 2px;
+}
+
+.infoBox span {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .modal {
+    padding: 1.5rem;
+    max-width: 95vw;
+  }
+
+  .title {
+    font-size: 1.5rem;
+  }
+
+  .urlContainer {
+    flex-direction: column;
+  }
+
+  .copyButton {
+    justify-content: center;
+  }
+
+  .infoBox {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .infoIcon {
+    margin-top: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal {
+    padding: 1.25rem;
+  }
+
+  .iconContainer {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 1rem;
+  }
+
+  .icon {
+    width: 30px;
+    height: 30px;
+  }
+
+  .title {
+    font-size: 1.25rem;
+  }
+
+  .message {
+    font-size: 0.875rem;
+  }
+
+  .urlInput {
+    font-size: 0.75rem;
+    padding: 0.75rem;
+  }
+
+  .copyButton {
+    padding: 0.75rem 1.25rem;
+    font-size: 0.875rem;
+  }
+
+  .infoBox {
+    padding: 0.75rem;
+  }
+
+  .infoBox span {
+    font-size: 0.8rem;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .backdrop,
+  .modal,
+  .copyButton,
+  .closeButton {
+    animation: none;
+    transition: none;
+  }
+}

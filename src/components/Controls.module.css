@@ -126,6 +126,40 @@
   opacity: 1;
 }
 
+/* Settings button - Make it prominent! */
+.buttonSettings {
+  background: var(--btn-primary-bg);
+  color: var(--btn-primary-text);
+  box-shadow: var(--shadow-tile);
+  position: relative;
+  font-weight: 800;
+  animation: settingsPulse 2s ease-in-out infinite;
+}
+
+.buttonSettings:hover {
+  background: var(--btn-primary-hover);
+  box-shadow: var(--shadow-tile-hover);
+  transform: translateY(-2px) scale(1.05);
+  animation: none;
+}
+
+.buttonSettings:active {
+  transform: translateY(0) scale(0.98);
+}
+
+/* Pulsing animation for settings button */
+@keyframes settingsPulse {
+  0%,
+  100% {
+    box-shadow: var(--shadow-tile);
+  }
+  50% {
+    box-shadow:
+      var(--shadow-tile-hover),
+      0 0 20px var(--btn-primary-bg);
+  }
+}
+
 /* Button icon */
 .buttonIcon {
   width: 1.25rem;
@@ -177,6 +211,11 @@
   .buttonIconOnly {
     padding: 0.625rem;
   }
+
+  .buttonSettings {
+    padding: 0.625rem 1.25rem;
+    font-size: 0.9rem;
+  }
 }
 
 @media (max-width: 480px) {
@@ -196,6 +235,7 @@
 
   .secondaryControls {
     justify-content: center;
+    gap: 0.75rem;
   }
 
   .button {
@@ -209,9 +249,20 @@
     height: 1rem;
   }
 
-  /* Hide text on very small screens */
-  .button span {
+  /* Hide text on very small screens for primary buttons */
+  .buttonPrimary span,
+  .buttonSecondary span {
     display: none;
+  }
+
+  /* Keep text visible for Settings button */
+  .buttonSettings span {
+    display: inline;
+  }
+
+  .buttonSettings {
+    flex: 1;
+    min-width: 0;
   }
 
   .buttonIconOnly {
@@ -230,7 +281,8 @@
 @media (prefers-reduced-motion: reduce) {
   .button,
   .button::before,
-  .button::after {
+  .button::after,
+  .buttonSettings {
     transition: none;
     animation: none;
   }
