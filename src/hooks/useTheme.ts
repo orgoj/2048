@@ -94,12 +94,12 @@ function getSystemPreference(): 'light' | 'dark' {
 function migrateLegacyTheme(legacyTheme: 'light' | 'dark' | 'auto' | string): Theme {
   switch (legacyTheme) {
     case 'light':
-      return 'classic'
+      return 'ocean' // Migrate light to ocean (new default)
     case 'dark':
-      return 'dark'
+      return 'ocean' // Migrate dark to ocean (new default)
     case 'auto':
-      // Auto mode: choose based on system preference
-      return getSystemPreference() === 'dark' ? 'dark' : 'classic'
+      // Auto mode: default to ocean
+      return 'ocean'
     default:
       // Check if it's already a valid new theme
       if (['classic', 'dark', 'neon', 'ocean'].includes(legacyTheme)) {
@@ -133,10 +133,22 @@ export function useTheme(): [Theme, (theme: Theme) => void] {
   // Initialize state with theme from localStorage or default
   const [currentTheme, setCurrentTheme] = useState<Theme>(() => {
     try {
+      // First check for the new theme system (v2)
+      const storedThemeV2 = localStorage.getItem('2048_theme_v2') as Theme | null
+      if (storedThemeV2 && ['classic', 'dark', 'neon', 'ocean'].includes(storedThemeV2)) {
+        return storedThemeV2
+      }
+
+      // Fall back to legacy theme system and migrate
       const preferences = loadPreferences()
       // The storage service still uses 'light' | 'dark' | 'auto'
       // We need to migrate this to the new theme system
-      return migrateLegacyTheme(preferences.theme)
+      const migratedTheme = migrateLegacyTheme(preferences.theme)
+
+      // Save the migrated theme for next time
+      localStorage.setItem('2048_theme_v2', migratedTheme)
+
+      return migratedTheme
     } catch (error) {
       console.error('Failed to load theme from preferences:', error)
       return DEFAULT_THEME
@@ -249,7 +261,7 @@ export function initializeTheme(): void {
       return
     }
 
-    // Fall back to legacy theme from preferences
+    // Fall back to legacy theme from preferences and migrate to ocean
     const preferences = loadPreferences()
     const theme = migrateLegacyTheme(preferences.theme)
     applyTheme(theme)
@@ -258,7 +270,9 @@ export function initializeTheme(): void {
     localStorage.setItem('2048_theme_v2', theme)
   } catch (error) {
     console.error('Failed to initialize theme:', error)
+    // Always default to ocean
     applyTheme(DEFAULT_THEME)
+    localStorage.setItem('2048_theme_v2', DEFAULT_THEME)
   }
 }
 
