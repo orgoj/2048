@@ -23,7 +23,7 @@
 .title {
   font-size: 4rem;
   font-weight: 900;
-  color: #776e65;
+  color: var(--text-heading);
   margin: 0;
   line-height: 1;
   display: flex;
@@ -34,21 +34,21 @@
 .titleSubtext {
   font-size: 1.5rem;
   font-weight: 600;
-  color: #776e65;
+  color: var(--text-heading);
   opacity: 0.8;
 }
 
 .subtitle {
   margin: 0.5rem 0 0;
   font-size: 0.95rem;
-  color: #776e65;
+  color: var(--text-primary);
   font-weight: 400;
   opacity: 0.8;
 }
 
 .subtitle strong {
   font-weight: 700;
-  color: #f59563;
+  color: var(--text-accent, #f59563);
 }
 
 /* Scores section */
@@ -61,12 +61,12 @@
 /* Individual score box */
 .scoreBox {
   position: relative;
-  background: #bbada0;
+  background: var(--score-bg);
   border-radius: 8px;
   padding: 0.5rem 1rem;
   min-width: 80px;
   text-align: center;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-tile);
   transition:
     transform 0.2s ease,
     box-shadow 0.2s ease;
@@ -74,22 +74,23 @@
 
 .scoreBox:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--shadow-tile-hover);
 }
 
 .scoreLabel {
   font-size: 0.75rem;
   font-weight: 700;
   text-transform: uppercase;
-  color: #eee4da;
+  color: var(--score-text);
   letter-spacing: 0.5px;
   margin-bottom: 0.25rem;
+  opacity: 0.9;
 }
 
 .scoreValue {
   font-size: 1.5rem;
   font-weight: 900;
-  color: #fff;
+  color: var(--score-text);
   line-height: 1;
 }
 
@@ -99,7 +100,7 @@
   top: 0;
   left: 50%;
   transform: translateX(-50%);
-  color: #f59563;
+  color: var(--text-accent, #f59563);
   font-weight: 900;
   font-size: 1.25rem;
   pointer-events: none;
@@ -115,26 +116,6 @@
     opacity: 0;
     transform: translateX(-50%) translateY(-40px);
   }
-}
-
-/* Instructions section */
-.instructions {
-  background: rgba(187, 173, 160, 0.15);
-  border-radius: 8px;
-  padding: 0.75rem 1rem;
-  border-left: 4px solid #bbada0;
-}
-
-.instructionText {
-  margin: 0;
-  font-size: 0.875rem;
-  color: #776e65;
-  font-weight: 400;
-}
-
-.instructionText strong {
-  font-weight: 700;
-  color: #8f7a66;
 }
 
 /* Responsive design */
@@ -196,40 +177,12 @@
     padding: 0.5rem 0.75rem;
   }
 
-  .instructionText {
-    font-size: 0.8rem;
-  }
-}
-
-/* Dark mode support */
-@media (prefers-color-scheme: dark) {
-  .title,
-  .titleSubtext,
-  .subtitle,
-  .instructionText {
-    color: #f9f6f2;
+  .scoreValue {
+    font-size: 1.25rem;
   }
 
-  .subtitle strong {
-    color: #f67c5f;
-  }
-
-  .scoreBox {
-    background: #8f7a66;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-  }
-
-  .scoreBox:hover {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-  }
-
-  .instructions {
-    background: rgba(143, 122, 102, 0.2);
-    border-left-color: #8f7a66;
-  }
-
-  .instructionText strong {
-    color: #bbada0;
+  .scoreLabel {
+    font-size: 0.65rem;
   }
 }
 
@@ -244,10 +197,6 @@
 
 /* Print styles */
 @media print {
-  .instructions {
-    display: none;
-  }
-
   .scoreIncrease {
     display: none;
   }

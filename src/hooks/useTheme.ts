@@ -16,7 +16,16 @@ import { loadPreferences, updatePreference } from '../services/storage'
 /**
  * Available theme options
  */
-export type Theme = 'classic' | 'dark' | 'neon' | 'ocean'
+export type Theme =
+  | 'classic'
+  | 'dark'
+  | 'neon'
+  | 'ocean'
+  | 'sunset'
+  | 'forest'
+  | 'midnight'
+  | 'candy'
+  | 'pastel'
 
 /**
  * Theme configuration with display metadata
@@ -32,6 +41,12 @@ export interface ThemeConfig {
  * Available themes with metadata
  */
 export const THEMES: ThemeConfig[] = [
+  {
+    id: 'ocean',
+    name: 'Ocean',
+    description: 'Calming ocean/water theme with blues',
+    icon: '🌊',
+  },
   {
     id: 'classic',
     name: 'Classic',
@@ -51,10 +66,34 @@ export const THEMES: ThemeConfig[] = [
     icon: '⚡',
   },
   {
-    id: 'ocean',
-    name: 'Ocean',
-    description: 'Calming ocean/water theme with blues',
-    icon: '🌊',
+    id: 'sunset',
+    name: 'Sunset',
+    description: 'Warm sunset gradient from yellow to purple',
+    icon: '🌅',
+  },
+  {
+    id: 'forest',
+    name: 'Forest',
+    description: 'Natural greens with earthy tones',
+    icon: '🌲',
+  },
+  {
+    id: 'midnight',
+    name: 'Midnight',
+    description: 'Dark purple to silver starlight gradient',
+    icon: '🌌',
+  },
+  {
+    id: 'candy',
+    name: 'Candy',
+    description: 'Sweet pink and purple candy colors',
+    icon: '🍬',
+  },
+  {
+    id: 'pastel',
+    name: 'Pastel',
+    description: 'Soft rainbow pastel palette',
+    icon: '🎀',
   },
 ]
 
@@ -100,12 +139,24 @@ function migrateLegacyTheme(legacyTheme: 'light' | 'dark' | 'auto' | string): Th
     case 'auto':
       // Auto mode: default to ocean
       return 'ocean'
-    default:
+    default: {
       // Check if it's already a valid new theme
-      if (['classic', 'dark', 'neon', 'ocean'].includes(legacyTheme)) {
+      const validThemes: Theme[] = [
+        'classic',
+        'dark',
+        'neon',
+        'ocean',
+        'sunset',
+        'forest',
+        'midnight',
+        'candy',
+        'pastel',
+      ]
+      if (validThemes.includes(legacyTheme as Theme)) {
         return legacyTheme as Theme
       }
       return DEFAULT_THEME
+    }
   }
 }
 
@@ -135,7 +186,18 @@ export function useTheme(): [Theme, (theme: Theme) => void] {
     try {
       // First check for the new theme system (v2)
       const storedThemeV2 = localStorage.getItem('2048_theme_v2') as Theme | null
-      if (storedThemeV2 && ['classic', 'dark', 'neon', 'ocean'].includes(storedThemeV2)) {
+      const validThemes: Theme[] = [
+        'classic',
+        'dark',
+        'neon',
+        'ocean',
+        'sunset',
+        'forest',
+        'midnight',
+        'candy',
+        'pastel',
+      ]
+      if (storedThemeV2 && validThemes.includes(storedThemeV2)) {
         return storedThemeV2
       }
 
@@ -255,8 +317,19 @@ export function initializeTheme(): void {
   try {
     // First check for the new theme system
     const storedThemeV2 = localStorage.getItem('2048_theme_v2') as Theme | null
+    const validThemes: Theme[] = [
+      'classic',
+      'dark',
+      'neon',
+      'ocean',
+      'sunset',
+      'forest',
+      'midnight',
+      'candy',
+      'pastel',
+    ]
 
-    if (storedThemeV2 && ['classic', 'dark', 'neon', 'ocean'].includes(storedThemeV2)) {
+    if (storedThemeV2 && validThemes.includes(storedThemeV2)) {
       applyTheme(storedThemeV2)
       return
     }

@@ -81,6 +81,28 @@
   box-shadow: 0 0 0 3px rgba(143, 122, 102, 0.1);
 }
 
+/* ==================== INSTRUCTIONS ==================== */
+
+.instructions {
+  background: rgba(var(--bg-game-board-rgb, 187, 173, 160), 0.15);
+  border-radius: var(--radius-lg, 8px);
+  padding: var(--spacing-md, 0.75rem) var(--spacing-lg, 1rem);
+  border-left: 4px solid var(--border-color);
+  text-align: center;
+}
+
+.instructionText {
+  margin: 0;
+  font-size: var(--font-size-sm, 0.875rem);
+  color: var(--text-primary);
+  font-weight: var(--font-weight-normal, 400);
+}
+
+.instructionText strong {
+  font-weight: var(--font-weight-bold, 700);
+  color: var(--text-secondary);
+}
+
 /* ==================== SHARE TOAST ==================== */
 
 .shareToast {
