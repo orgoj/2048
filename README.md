@@ -313,70 +313,76 @@ The `dist/` directory contains:
 
 ## GitHub Pages Deployment
 
-### Setup
+This project uses **GitHub Actions** for automatic deployment. No manual steps required!
 
-1. **Configure repository settings**
-   - Go to your repository's Settings
-   - Navigate to "Pages" in the left sidebar
-   - Source: Deploy from a branch
-   - Branch: `gh-pages` (or `main` with `/docs` folder)
+### Initial Setup (One-time)
 
-2. **Update package.json for correct base path**
-   - If deploying to `https://username.github.io/2048/`
-   - Update vite.config.ts:
-   ```typescript
-   export default defineConfig({
-     base: '/2048/',
-     // ... rest of config
-   });
-   ```
+1. **Enable GitHub Pages in repository settings**
+   - Go to your repository's **Settings**
+   - Navigate to **Pages** in the left sidebar
+   - Under "Source", select: **GitHub Actions**
+   - Save
 
-### Deployment Steps
+2. **That's it!** The workflow is already configured in `.github/workflows/deploy.yml`
 
-1. **Build the project**
-   ```bash
-   npm run build
-   ```
+### How Auto-Deploy Works
 
-2. **Deploy to GitHub Pages (Option A: Using gh-pages branch)**
-   ```bash
-   # Install gh-pages package (one-time)
-   npm install --save-dev gh-pages
+Every push to the `main` branch automatically:
+1. ✅ Installs dependencies
+2. ✅ Runs TypeScript type checking
+3. ✅ Builds the production bundle
+4. ✅ Deploys to GitHub Pages
 
-   # Add deploy script to package.json
-   # "deploy": "npm run build && gh-pages -d dist"
+**Workflow file:** `.github/workflows/deploy.yml`
 
-   # Deploy
-   npm run deploy
-   ```
+### Manual Deployment (Alternative)
 
-3. **Deploy to GitHub Pages (Option B: Manual)**
-   ```bash
-   # Build
-   npm run build
+If you prefer manual control, you can trigger deployment:
 
-   # Create gh-pages branch
-   git checkout --orphan gh-pages
+```bash
+# Merge your changes to main
+git checkout main
+git merge your-feature-branch
+git push origin main
 
-   # Copy dist contents to root
-   cp -r dist/* .
-
-   # Commit and push
-   git add .
-   git commit -m "Deploy to GitHub Pages"
-   git push origin gh-pages
-
-   # Return to main branch
-   git checkout main
-   ```
+# GitHub Actions will auto-deploy within 2-3 minutes
+```
 
 ### Verification
 
-After deployment:
-1. Visit `https://username.github.io/2048`
-2. Game should load and be fully playable
-3. Check that URL parameters work (e.g., `#size=5&theme=dark`)
-4. Test on mobile devices
+After deployment (automatic or manual):
+
+1. **Visit your game:**
+   ```
+   https://[username].github.io/2048/
+   ```
+
+2. **Test URL configuration:**
+   ```
+   https://[username].github.io/2048/#size=5&theme=dark
+   https://[username].github.io/2048/#size=6&target=4096&theme=neon&mode=zen
+   ```
+
+3. **Check GitHub Actions tab** to see deployment status
+
+### Custom Domain (Optional)
+
+To use a custom domain:
+1. Add `CNAME` file to `public/` directory with your domain
+2. Configure DNS settings with your provider
+3. Update `base` in `vite.config.ts` to `'/'`
+
+### Troubleshooting
+
+**Deployment failed?**
+- Check the Actions tab for error logs
+- Ensure `base: '/2048/'` in `vite.config.ts` matches your repo name
+- Verify GitHub Pages is enabled with "GitHub Actions" source
+
+**404 errors?**
+- Wait 2-3 minutes after first deployment
+- Clear browser cache
+- Check that `base` path matches your repo name
 
 ## Configuration Options
 
