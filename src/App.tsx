@@ -206,6 +206,13 @@ export default function App() {
           onOpenSettings={openSettings}
         />
 
+        {/* Game Instructions */}
+        <div className={styles.instructions}>
+          <p className={styles.instructionText}>
+            Use your <strong>arrow keys</strong> or <strong>swipe</strong> to move the tiles
+          </p>
+        </div>
+
         {/* Share Message Toast */}
         {shareMessage && (
           <div className={styles.shareToast}>

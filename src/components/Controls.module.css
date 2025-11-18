@@ -61,20 +61,20 @@
 }
 
 .button:focus-visible {
-  outline: 3px solid #8f7a66;
+  outline: 3px solid var(--btn-primary-bg, #8f7a66);
   outline-offset: 2px;
 }
 
 /* Primary button (New Game) */
 .buttonPrimary {
-  background: linear-gradient(135deg, #8f7a66 0%, #7a6a5a 100%);
-  color: #f9f6f2;
-  box-shadow: 0 2px 8px rgba(143, 122, 102, 0.3);
+  background: var(--btn-primary-bg);
+  color: var(--btn-primary-text);
+  box-shadow: var(--shadow-tile);
 }
 
 .buttonPrimary:hover {
-  background: linear-gradient(135deg, #9f8a76 0%, #8a7a6a 100%);
-  box-shadow: 0 4px 12px rgba(143, 122, 102, 0.4);
+  background: var(--btn-primary-hover);
+  box-shadow: var(--shadow-tile-hover);
   transform: translateY(-2px);
 }
 
@@ -84,14 +84,14 @@
 
 /* Secondary button (Undo) */
 .buttonSecondary {
-  background: linear-gradient(135deg, #bbada0 0%, #a89d94 100%);
-  color: #f9f6f2;
-  box-shadow: 0 2px 8px rgba(187, 173, 160, 0.3);
+  background: var(--btn-secondary-bg);
+  color: var(--btn-secondary-text);
+  box-shadow: var(--shadow-tile);
 }
 
 .buttonSecondary:hover:not(:disabled) {
-  background: linear-gradient(135deg, #cbada0 0%, #b8ad94 100%);
-  box-shadow: 0 4px 12px rgba(187, 173, 160, 0.4);
+  background: var(--btn-secondary-hover);
+  box-shadow: var(--shadow-tile-hover);
   transform: translateY(-2px);
 }
 
@@ -113,15 +113,17 @@
 /* Icon-only button */
 .buttonIconOnly {
   padding: 0.75rem;
-  background: rgba(187, 173, 160, 0.3);
-  color: #776e65;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  background: var(--btn-secondary-bg);
+  color: var(--btn-secondary-text);
+  box-shadow: var(--shadow-tile);
+  opacity: 0.8;
 }
 
 .buttonIconOnly:hover {
-  background: rgba(187, 173, 160, 0.5);
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+  background: var(--btn-secondary-hover);
+  box-shadow: var(--shadow-tile-hover);
   transform: translateY(-2px);
+  opacity: 1;
 }
 
 /* Button icon */
@@ -221,38 +223,6 @@
 @media (min-width: 481px) and (max-width: 640px) {
   .button span {
     display: inline;
-  }
-}
-
-/* Dark mode support */
-@media (prefers-color-scheme: dark) {
-  .buttonPrimary {
-    background: linear-gradient(135deg, #7a6a5a 0%, #6a5a4a 100%);
-    box-shadow: 0 2px 8px rgba(122, 106, 90, 0.4);
-  }
-
-  .buttonPrimary:hover {
-    background: linear-gradient(135deg, #8a7a6a 0%, #7a6a5a 100%);
-    box-shadow: 0 4px 12px rgba(122, 106, 90, 0.5);
-  }
-
-  .buttonSecondary {
-    background: linear-gradient(135deg, #8f7a66 0%, #7f6a56 100%);
-    box-shadow: 0 2px 8px rgba(143, 122, 102, 0.4);
-  }
-
-  .buttonSecondary:hover:not(:disabled) {
-    background: linear-gradient(135deg, #9f8a76 0%, #8f7a66 100%);
-    box-shadow: 0 4px 12px rgba(143, 122, 102, 0.5);
-  }
-
-  .buttonIconOnly {
-    background: rgba(143, 122, 102, 0.3);
-    color: #f9f6f2;
-  }
-
-  .buttonIconOnly:hover {
-    background: rgba(143, 122, 102, 0.5);
   }
 }
 

@@ -28,7 +28,7 @@ export const Header: React.FC<HeaderProps> = ({ score, bestScore, targetValue })
 
       return () => clearTimeout(timer)
     }
-    setPrevScore(score)  
+    setPrevScore(score)
   }, [score, prevScore])
 
   return (
@@ -66,13 +66,6 @@ export const Header: React.FC<HeaderProps> = ({ score, bestScore, targetValue })
             </div>
           </div>
         </div>
-      </div>
-
-      {/* Optional: Add instructions or tips */}
-      <div className={styles.instructions}>
-        <p className={styles.instructionText}>
-          Use your <strong>arrow keys</strong> or <strong>swipe</strong> to move the tiles
-        </p>
       </div>
     </header>
   )
