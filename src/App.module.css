@@ -1,0 +1,467 @@
+/**
+ * App.module.css - Main application layout and styling
+ * Responsive, mobile-friendly, with smooth transitions
+ */
+
+/* ==================== MAIN APP CONTAINER ==================== */
+
+.app {
+  min-height: 100vh;
+  width: 100%;
+  background-color: var(--bg-page);
+  color: var(--text-primary);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: var(--spacing-md);
+  transition:
+    background-color var(--transition-base),
+    color var(--transition-base);
+}
+
+.container {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+  padding-bottom: var(--spacing-3xl);
+}
+
+/* ==================== TOP BAR (Header + Theme Switcher) ==================== */
+
+.topBar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  width: 100%;
+}
+
+.themeSwitcher {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-sm);
+  background: var(--bg-container);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.themeLabel {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.themeSelect {
+  padding: var(--spacing-xs) var(--spacing-md);
+  background: var(--bg-page);
+  color: var(--text-primary);
+  border: 2px solid var(--border-color);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  outline: none;
+  transition: all var(--transition-fast);
+  min-width: 150px;
+}
+
+.themeSelect:hover {
+  border-color: var(--btn-primary-bg);
+}
+
+.themeSelect:focus {
+  border-color: var(--btn-primary-bg);
+  box-shadow: 0 0 0 3px rgba(143, 122, 102, 0.1);
+}
+
+/* ==================== SHARE TOAST ==================== */
+
+.shareToast {
+  position: fixed;
+  bottom: var(--spacing-xl);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md) var(--spacing-lg);
+  background: var(--btn-primary-bg);
+  color: var(--btn-primary-text);
+  border-radius: var(--radius-xl);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  font-weight: var(--font-weight-semibold);
+  z-index: var(--z-toast);
+  animation:
+    slideUp 0.3s ease-out,
+    fadeOut 0.3s ease-in 2.7s;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.shareToast svg {
+  flex-shrink: 0;
+  stroke: currentColor;
+  stroke-width: 2;
+}
+
+/* ==================== MODAL OVERLAY (for Stats) ==================== */
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-lg);
+  z-index: var(--z-modal-backdrop);
+  animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.modalContent {
+  position: relative;
+  width: 100%;
+  max-width: 800px;
+  max-height: 90vh;
+  overflow-y: auto;
+  background: var(--bg-container);
+  border-radius: var(--radius-xl);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  animation: scaleIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.modalClose {
+  position: absolute;
+  top: var(--spacing-md);
+  right: var(--spacing-md);
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-page);
+  color: var(--text-secondary);
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  z-index: 1;
+}
+
+.modalClose:hover {
+  background: var(--border-color);
+  color: var(--text-primary);
+  transform: scale(1.1);
+}
+
+.modalClose svg {
+  stroke: currentColor;
+  stroke-width: 2;
+}
+
+/* ==================== FOOTER ==================== */
+
+.footer {
+  margin-top: auto;
+  padding: var(--spacing-xl) var(--spacing-md);
+  width: 100%;
+  max-width: 600px;
+  border-top: 1px solid var(--border-color);
+}
+
+.footerContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-md);
+  text-align: center;
+}
+
+.footerContent p {
+  margin: 0;
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+}
+
+.footerLinks {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.footerLink {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--text-primary);
+  text-decoration: none;
+  transition:
+    color var(--transition-fast),
+    transform var(--transition-fast);
+}
+
+.footerLink:hover {
+  color: var(--btn-primary-bg);
+  transform: translateY(-1px);
+}
+
+.footerLink svg {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
+}
+
+.footerSeparator {
+  color: var(--text-secondary);
+  font-weight: var(--font-weight-bold);
+}
+
+/* ==================== RESPONSIVE DESIGN ==================== */
+
+/* Tablets and up */
+@media (min-width: 768px) {
+  .app {
+    padding: var(--spacing-xl);
+    justify-content: center;
+  }
+
+  .container {
+    gap: var(--spacing-xl);
+  }
+
+  .topBar {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+
+  .themeSwitcher {
+    width: auto;
+  }
+
+  .shareToast {
+    bottom: var(--spacing-2xl);
+  }
+
+  .modalContent {
+    max-height: 85vh;
+  }
+
+  .footerContent {
+    flex-direction: row;
+    justify-content: space-between;
+    text-align: left;
+  }
+}
+
+/* Desktops and up */
+@media (min-width: 1024px) {
+  .container {
+    max-width: 650px;
+  }
+
+  .modalContent {
+    max-width: 900px;
+  }
+}
+
+/* Extra large screens */
+@media (min-width: 1280px) {
+  .container {
+    max-width: 700px;
+  }
+}
+
+/* ==================== MOBILE OPTIMIZATIONS ==================== */
+
+/* Small phones */
+@media (max-width: 360px) {
+  .app {
+    padding: var(--spacing-sm);
+  }
+
+  .container {
+    gap: var(--spacing-md);
+  }
+
+  .themeSwitcher {
+    padding: var(--spacing-xs);
+  }
+
+  .themeSelect {
+    font-size: var(--font-size-sm);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    min-width: 130px;
+  }
+
+  .shareToast {
+    left: var(--spacing-md);
+    right: var(--spacing-md);
+    transform: translateX(0);
+    justify-content: center;
+  }
+}
+
+/* Landscape orientation on mobile */
+@media (max-height: 600px) and (orientation: landscape) {
+  .app {
+    padding: var(--spacing-sm);
+  }
+
+  .container {
+    gap: var(--spacing-sm);
+    padding-bottom: var(--spacing-lg);
+  }
+
+  .topBar {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .footer {
+    padding: var(--spacing-md);
+  }
+}
+
+/* ==================== ACCESSIBILITY ==================== */
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .themeSwitcher,
+  .modalContent {
+    border: 2px solid currentColor;
+  }
+
+  .themeSelect {
+    border-width: 3px;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .shareToast,
+  .modalOverlay,
+  .modalContent,
+  .modalClose,
+  .footerLink {
+    animation: none;
+    transition: none;
+  }
+}
+
+/* Focus visible */
+.themeSelect:focus-visible,
+.modalClose:focus-visible,
+.footerLink:focus-visible {
+  outline: 2px solid var(--btn-primary-bg);
+  outline-offset: 2px;
+}
+
+/* ==================== DARK MODE SPECIFIC ADJUSTMENTS ==================== */
+
+[data-theme='dark'] .shareToast {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+[data-theme='dark'] .modalOverlay {
+  background: rgba(0, 0, 0, 0.8);
+}
+
+[data-theme='dark'] .modalContent {
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.6);
+}
+
+/* ==================== NEON THEME SPECIFIC ADJUSTMENTS ==================== */
+
+[data-theme='neon'] .shareToast {
+  box-shadow:
+    0 4px 20px rgba(255, 0, 255, 0.3),
+    0 0 10px rgba(255, 0, 255, 0.2);
+}
+
+[data-theme='neon'] .themeSwitcher {
+  box-shadow: 0 2px 12px rgba(255, 0, 255, 0.2);
+}
+
+/* ==================== OCEAN THEME SPECIFIC ADJUSTMENTS ==================== */
+
+[data-theme='ocean'] .shareToast {
+  box-shadow:
+    0 4px 20px rgba(0, 119, 190, 0.3),
+    0 0 10px rgba(0, 119, 190, 0.2);
+}
+
+[data-theme='ocean'] .themeSwitcher {
+  box-shadow: 0 2px 12px rgba(0, 119, 190, 0.2);
+}
+
+/* ==================== PRINT STYLES ==================== */
+
+@media print {
+  .shareToast,
+  .modalOverlay,
+  .footer,
+  .themeSwitcher {
+    display: none !important;
+  }
+
+  .app {
+    padding: 0;
+  }
+
+  .container {
+    max-width: 100%;
+  }
+}

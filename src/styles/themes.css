@@ -1,0 +1,417 @@
+/**
+ * 2048 Game - Theme System
+ * Modern, beautiful themes using CSS custom properties (variables)
+ *
+ * Themes:
+ * - classic: Traditional 2048 beige/brown palette
+ * - dark: High contrast dark mode with vibrant tiles
+ * - neon: Cyberpunk neon theme with glowing effects
+ * - ocean: Calming ocean/water theme with blues and teals
+ */
+
+/* ==================== ROOT / CLASSIC THEME (DEFAULT) ==================== */
+
+:root,
+[data-theme='classic'] {
+  /* Background Colors */
+  --bg-page: #faf8ef;
+  --bg-game-board: #bbada0;
+  --bg-cell-empty: rgba(238, 228, 218, 0.35);
+
+  /* Tile Colors - Classic 2048 palette with enhanced gradients */
+  --bg-tile-2: linear-gradient(135deg, #eee4da 0%, #ede0c8 100%);
+  --bg-tile-4: linear-gradient(135deg, #ede0c8 0%, #f2b179 100%);
+  --bg-tile-8: linear-gradient(135deg, #f2b179 0%, #f59563 100%);
+  --bg-tile-16: linear-gradient(135deg, #f59563 0%, #f67c5f 100%);
+  --bg-tile-32: linear-gradient(135deg, #f67c5f 0%, #f65e3b 100%);
+  --bg-tile-64: linear-gradient(135deg, #f65e3b 0%, #edcf72 100%);
+  --bg-tile-128: linear-gradient(135deg, #edcf72 0%, #edcc61 100%);
+  --bg-tile-256: linear-gradient(135deg, #edcc61 0%, #edc850 100%);
+  --bg-tile-512: linear-gradient(135deg, #edc850 0%, #edc53f 100%);
+  --bg-tile-1024: linear-gradient(135deg, #edc53f 0%, #edc22e 100%);
+  --bg-tile-2048: linear-gradient(135deg, #edc22e 0%, #3c3a32 100%);
+  --bg-tile-4096: linear-gradient(135deg, #3c3a32 0%, #ff0000 100%);
+  --bg-tile-8192: linear-gradient(135deg, #ff0000 0%, #8b0000 100%);
+  --bg-tile-16384: linear-gradient(135deg, #8b0000 0%, #1a1a1a 100%);
+  --bg-tile-super: linear-gradient(135deg, #000000 0%, #4a0000 100%);
+
+  /* Text Colors */
+  --text-tile-light: #f9f6f2;
+  --text-tile-dark: #776e65;
+  --text-primary: #776e65;
+  --text-secondary: #8f7a66;
+  --text-heading: #776e65;
+
+  /* Border & Shadow */
+  --border-color: #bbada0;
+  --shadow-tile: 0 2px 8px rgba(0, 0, 0, 0.1);
+  --shadow-tile-hover: 0 4px 16px rgba(0, 0, 0, 0.15);
+  --shadow-board: 0 4px 20px rgba(0, 0, 0, 0.1);
+  --glow-tile: none;
+
+  /* Button Colors */
+  --btn-primary-bg: #8f7a66;
+  --btn-primary-hover: #9f8a76;
+  --btn-primary-text: #f9f6f2;
+  --btn-secondary-bg: #eee4da;
+  --btn-secondary-hover: #e6ddd2;
+  --btn-secondary-text: #776e65;
+
+  /* Animation Colors */
+  --anim-new-tile: rgba(237, 194, 46, 0.5);
+  --anim-merge-tile: rgba(246, 94, 59, 0.7);
+
+  /* UI Elements */
+  --score-bg: #bbada0;
+  --score-text: #eee4da;
+  --overlay-bg: rgba(238, 228, 218, 0.95);
+}
+
+/* ==================== DARK THEME ==================== */
+
+[data-theme='dark'] {
+  /* Background Colors */
+  --bg-page: #1a1a1a;
+  --bg-game-board: #2d2d2d;
+  --bg-cell-empty: rgba(60, 60, 60, 0.5);
+
+  /* Tile Colors - Vibrant on dark with enhanced contrast */
+  --bg-tile-2: linear-gradient(135deg, #3a3a3a 0%, #4a4a4a 100%);
+  --bg-tile-4: linear-gradient(135deg, #4a4a4a 0%, #5a5a5a 100%);
+  --bg-tile-8: linear-gradient(135deg, #ff6b35 0%, #ff8c42 100%);
+  --bg-tile-16: linear-gradient(135deg, #ff8c42 0%, #ffa600 100%);
+  --bg-tile-32: linear-gradient(135deg, #ffa600 0%, #ffc107 100%);
+  --bg-tile-64: linear-gradient(135deg, #ffc107 0%, #ffeb3b 100%);
+  --bg-tile-128: linear-gradient(135deg, #ffeb3b 0%, #cddc39 100%);
+  --bg-tile-256: linear-gradient(135deg, #cddc39 0%, #8bc34a 100%);
+  --bg-tile-512: linear-gradient(135deg, #8bc34a 0%, #4caf50 100%);
+  --bg-tile-1024: linear-gradient(135deg, #4caf50 0%, #00bcd4 100%);
+  --bg-tile-2048: linear-gradient(135deg, #00bcd4 0%, #2196f3 100%);
+  --bg-tile-4096: linear-gradient(135deg, #2196f3 0%, #3f51b5 100%);
+  --bg-tile-8192: linear-gradient(135deg, #3f51b5 0%, #673ab7 100%);
+  --bg-tile-16384: linear-gradient(135deg, #673ab7 0%, #9c27b0 100%);
+  --bg-tile-super: linear-gradient(135deg, #9c27b0 0%, #e91e63 100%);
+
+  /* Text Colors */
+  --text-tile-light: #ffffff;
+  --text-tile-dark: #1a1a1a;
+  --text-primary: #e0e0e0;
+  --text-secondary: #b0b0b0;
+  --text-heading: #ffffff;
+
+  /* Border & Shadow */
+  --border-color: #404040;
+  --shadow-tile: 0 4px 12px rgba(0, 0, 0, 0.5);
+  --shadow-tile-hover: 0 6px 20px rgba(0, 0, 0, 0.7);
+  --shadow-board: 0 8px 32px rgba(0, 0, 0, 0.6);
+  --glow-tile: 0 0 20px rgba(255, 255, 255, 0.1);
+
+  /* Button Colors */
+  --btn-primary-bg: #4a90e2;
+  --btn-primary-hover: #357abd;
+  --btn-primary-text: #ffffff;
+  --btn-secondary-bg: #3a3a3a;
+  --btn-secondary-hover: #4a4a4a;
+  --btn-secondary-text: #e0e0e0;
+
+  /* Animation Colors */
+  --anim-new-tile: rgba(74, 144, 226, 0.6);
+  --anim-merge-tile: rgba(255, 107, 53, 0.8);
+
+  /* UI Elements */
+  --score-bg: #3a3a3a;
+  --score-text: #ffffff;
+  --overlay-bg: rgba(26, 26, 26, 0.95);
+}
+
+/* ==================== NEON THEME ==================== */
+
+[data-theme='neon'] {
+  /* Background Colors */
+  --bg-page: #0a0a0f;
+  --bg-game-board: #1a1a2e;
+  --bg-cell-empty: rgba(22, 22, 44, 0.6);
+
+  /* Tile Colors - Cyberpunk neon with intense glow */
+  --bg-tile-2: linear-gradient(135deg, #16213e 0%, #1f2a47 100%);
+  --bg-tile-4: linear-gradient(135deg, #1f2a47 0%, #2e3a59 100%);
+  --bg-tile-8: linear-gradient(135deg, #ff006e 0%, #ff1a8c 100%);
+  --bg-tile-16: linear-gradient(135deg, #ff1a8c 0%, #ff33aa 100%);
+  --bg-tile-32: linear-gradient(135deg, #ff33aa 0%, #ff4dc8 100%);
+  --bg-tile-64: linear-gradient(135deg, #ff4dc8 0%, #8338ec 100%);
+  --bg-tile-128: linear-gradient(135deg, #8338ec 0%, #9d4edd 100%);
+  --bg-tile-256: linear-gradient(135deg, #9d4edd 0%, #c77dff 100%);
+  --bg-tile-512: linear-gradient(135deg, #c77dff 0%, #7209b7 100%);
+  --bg-tile-1024: linear-gradient(135deg, #7209b7 0%, #00f5ff 100%);
+  --bg-tile-2048: linear-gradient(135deg, #00f5ff 0%, #00d4ff 100%);
+  --bg-tile-4096: linear-gradient(135deg, #00d4ff 0%, #00b3ff 100%);
+  --bg-tile-8192: linear-gradient(135deg, #00b3ff 0%, #0091ff 100%);
+  --bg-tile-16384: linear-gradient(135deg, #0091ff 0%, #00ff41 100%);
+  --bg-tile-super: linear-gradient(135deg, #00ff41 0%, #39ff14 100%);
+
+  /* Text Colors */
+  --text-tile-light: #ffffff;
+  --text-tile-dark: #0a0a0f;
+  --text-primary: #e0e0e0;
+  --text-secondary: #a0a0ff;
+  --text-heading: #00f5ff;
+
+  /* Border & Shadow */
+  --border-color: #8338ec;
+  --shadow-tile: 0 4px 15px rgba(131, 56, 236, 0.4);
+  --shadow-tile-hover: 0 6px 25px rgba(131, 56, 236, 0.6);
+  --shadow-board: 0 8px 40px rgba(131, 56, 236, 0.5);
+  --glow-tile: 0 0 30px rgba(131, 56, 236, 0.6);
+
+  /* Button Colors */
+  --btn-primary-bg: linear-gradient(135deg, #ff006e 0%, #8338ec 100%);
+  --btn-primary-hover: linear-gradient(135deg, #ff1a8c 0%, #9d4edd 100%);
+  --btn-primary-text: #ffffff;
+  --btn-secondary-bg: #1a1a2e;
+  --btn-secondary-hover: #2a2a3e;
+  --btn-secondary-text: #00f5ff;
+
+  /* Animation Colors */
+  --anim-new-tile: rgba(0, 245, 255, 0.7);
+  --anim-merge-tile: rgba(255, 0, 110, 0.9);
+
+  /* UI Elements */
+  --score-bg: linear-gradient(135deg, #8338ec 0%, #ff006e 100%);
+  --score-text: #ffffff;
+  --overlay-bg: rgba(10, 10, 15, 0.97);
+}
+
+/* Neon glow effects for tiles */
+[data-theme='neon'] .tile {
+  box-shadow: var(--shadow-tile), var(--glow-tile);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[data-theme='neon'] .tile:hover {
+  box-shadow: var(--shadow-tile-hover), var(--glow-tile);
+  transform: scale(1.02);
+}
+
+/* ==================== OCEAN THEME ==================== */
+
+[data-theme='ocean'] {
+  /* Background Colors */
+  --bg-page: #e0f7fa;
+  --bg-game-board: #006064;
+  --bg-cell-empty: rgba(128, 222, 234, 0.3);
+
+  /* Tile Colors - Ocean depths to surface */
+  --bg-tile-2: linear-gradient(135deg, #b2ebf2 0%, #80deea 100%);
+  --bg-tile-4: linear-gradient(135deg, #80deea 0%, #4dd0e1 100%);
+  --bg-tile-8: linear-gradient(135deg, #4dd0e1 0%, #26c6da 100%);
+  --bg-tile-16: linear-gradient(135deg, #26c6da 0%, #00bcd4 100%);
+  --bg-tile-32: linear-gradient(135deg, #00bcd4 0%, #00acc1 100%);
+  --bg-tile-64: linear-gradient(135deg, #00acc1 0%, #0097a7 100%);
+  --bg-tile-128: linear-gradient(135deg, #0097a7 0%, #00838f 100%);
+  --bg-tile-256: linear-gradient(135deg, #00838f 0%, #006064 100%);
+  --bg-tile-512: linear-gradient(135deg, #006064 0%, #004d5b 100%);
+  --bg-tile-1024: linear-gradient(135deg, #004d5b 0%, #1565c0 100%);
+  --bg-tile-2048: linear-gradient(135deg, #1565c0 0%, #0d47a1 100%);
+  --bg-tile-4096: linear-gradient(135deg, #0d47a1 0%, #673ab7 100%);
+  --bg-tile-8192: linear-gradient(135deg, #673ab7 0%, #512da8 100%);
+  --bg-tile-16384: linear-gradient(135deg, #512da8 0%, #4527a0 100%);
+  --bg-tile-super: linear-gradient(135deg, #4527a0 0%, #311b92 100%);
+
+  /* Text Colors */
+  --text-tile-light: #ffffff;
+  --text-tile-dark: #004d5b;
+  --text-primary: #004d5b;
+  --text-secondary: #00838f;
+  --text-heading: #006064;
+
+  /* Border & Shadow */
+  --border-color: #0097a7;
+  --shadow-tile: 0 2px 10px rgba(0, 150, 167, 0.3);
+  --shadow-tile-hover: 0 4px 18px rgba(0, 150, 167, 0.5);
+  --shadow-board: 0 6px 30px rgba(0, 96, 100, 0.4);
+  --glow-tile: 0 0 15px rgba(0, 188, 212, 0.3);
+
+  /* Button Colors */
+  --btn-primary-bg: linear-gradient(135deg, #00bcd4 0%, #0097a7 100%);
+  --btn-primary-hover: linear-gradient(135deg, #26c6da 0%, #00acc1 100%);
+  --btn-primary-text: #ffffff;
+  --btn-secondary-bg: #b2ebf2;
+  --btn-secondary-hover: #80deea;
+  --btn-secondary-text: #004d5b;
+
+  /* Animation Colors */
+  --anim-new-tile: rgba(0, 188, 212, 0.6);
+  --anim-merge-tile: rgba(21, 101, 192, 0.8);
+
+  /* UI Elements */
+  --score-bg: linear-gradient(135deg, #00bcd4 0%, #006064 100%);
+  --score-text: #ffffff;
+  --overlay-bg: rgba(224, 247, 250, 0.95);
+}
+
+/* Ocean wave effect for tiles */
+[data-theme='ocean'] .tile {
+  box-shadow: var(--shadow-tile), var(--glow-tile);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[data-theme='ocean'] .tile:hover {
+  box-shadow:
+    var(--shadow-tile-hover),
+    0 0 25px rgba(0, 188, 212, 0.5);
+}
+
+/* ==================== TILE BACKGROUND CLASSES ==================== */
+
+/* These classes apply the gradient backgrounds to tiles based on their value */
+.tile-2 {
+  background: var(--bg-tile-2);
+}
+.tile-4 {
+  background: var(--bg-tile-4);
+}
+.tile-8 {
+  background: var(--bg-tile-8);
+}
+.tile-16 {
+  background: var(--bg-tile-16);
+}
+.tile-32 {
+  background: var(--bg-tile-32);
+}
+.tile-64 {
+  background: var(--bg-tile-64);
+}
+.tile-128 {
+  background: var(--bg-tile-128);
+}
+.tile-256 {
+  background: var(--bg-tile-256);
+}
+.tile-512 {
+  background: var(--bg-tile-512);
+}
+.tile-1024 {
+  background: var(--bg-tile-1024);
+}
+.tile-2048 {
+  background: var(--bg-tile-2048);
+}
+.tile-4096 {
+  background: var(--bg-tile-4096);
+}
+.tile-8192 {
+  background: var(--bg-tile-8192);
+}
+.tile-16384 {
+  background: var(--bg-tile-16384);
+}
+.tile-super {
+  background: var(--bg-tile-super);
+}
+
+/* ==================== TEXT COLOR HELPERS ==================== */
+
+/* Tiles 2 and 4 use dark text, others use light text */
+.tile-2,
+.tile-4 {
+  color: var(--text-tile-dark);
+}
+
+.tile-8,
+.tile-16,
+.tile-32,
+.tile-64,
+.tile-128,
+.tile-256,
+.tile-512,
+.tile-1024,
+.tile-2048,
+.tile-4096,
+.tile-8192,
+.tile-16384,
+.tile-super {
+  color: var(--text-tile-light);
+}
+
+/* ==================== ANIMATIONS ==================== */
+
+@keyframes tile-appear {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes tile-merge {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes tile-move {
+  0% {
+    transform: translate(var(--translate-x), var(--translate-y));
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
+@keyframes glow-pulse {
+  0%,
+  100% {
+    box-shadow: var(--shadow-tile), var(--glow-tile);
+  }
+  50% {
+    box-shadow:
+      var(--shadow-tile-hover),
+      0 0 40px var(--anim-new-tile);
+  }
+}
+
+/* Apply animations to tiles */
+.tile-new {
+  animation: tile-appear 0.2s ease-out;
+}
+
+.tile-merged {
+  animation: tile-merge 0.3s ease-in-out;
+}
+
+.tile-moving {
+  transition: transform 0.15s ease-in-out;
+}
+
+/* Neon theme specific pulse animation */
+[data-theme='neon'] .tile-new {
+  animation:
+    tile-appear 0.2s ease-out,
+    glow-pulse 1s ease-in-out;
+}
+
+/* ==================== THEME TRANSITION ==================== */
+
+/* Smooth transition when switching themes */
+* {
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease,
+    border-color 0.3s ease;
+}
+
+/* Disable transition for tiles to avoid animation conflicts */
+.tile,
+.tile * {
+  transition: none;
+}

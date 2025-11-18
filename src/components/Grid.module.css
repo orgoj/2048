@@ -1,0 +1,144 @@
+/* Grid container */
+.gridContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+}
+
+/* Main grid */
+.grid {
+  position: relative;
+  background: #bbada0;
+  border-radius: 12px;
+  padding: 0.75rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+
+  /* Responsive sizing */
+  width: min(500px, 90vw);
+  height: min(500px, 90vw);
+  aspect-ratio: 1;
+}
+
+/* Background cells layer */
+.gridCells {
+  position: absolute;
+  inset: 0.75rem;
+  display: grid;
+  grid-template-columns: repeat(var(--grid-size), 1fr);
+  grid-template-rows: repeat(var(--grid-size), 1fr);
+  gap: 0.75rem;
+  z-index: 1;
+}
+
+/* Individual background cell */
+.gridCell {
+  background: rgba(238, 228, 218, 0.35);
+  border-radius: 6px;
+  transition: background 0.2s ease;
+}
+
+/* Tiles layer - positioned absolutely */
+.gridTiles {
+  position: absolute;
+  inset: 0.75rem;
+  z-index: 2;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .grid {
+    width: min(400px, 95vw);
+    height: min(400px, 95vw);
+    padding: 0.5rem;
+  }
+
+  .gridCells,
+  .gridTiles {
+    inset: 0.5rem;
+    gap: 0.5rem;
+  }
+
+  .gridCells {
+    gap: 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .grid {
+    width: 100vw;
+    max-width: 350px;
+    height: 100vw;
+    max-height: 350px;
+    padding: 0.375rem;
+  }
+
+  .gridCells,
+  .gridTiles {
+    inset: 0.375rem;
+  }
+
+  .gridCells {
+    gap: 0.375rem;
+  }
+}
+
+/* Grid size variations */
+@media (min-width: 769px) {
+  /* Larger grids get more space */
+  .grid:has([style*='--grid-size: 5']) {
+    width: min(550px, 90vw);
+    height: min(550px, 90vw);
+  }
+
+  .grid:has([style*='--grid-size: 6']) {
+    width: min(600px, 90vw);
+    height: min(600px, 90vw);
+  }
+}
+
+/* Add a subtle glow effect */
+.grid::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  background: linear-gradient(135deg, rgba(187, 173, 160, 0.3), rgba(187, 173, 160, 0.1));
+  border-radius: 14px;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.grid:hover::before {
+  opacity: 1;
+}
+
+/* Accessibility - Focus styles */
+.grid:focus-within {
+  outline: 3px solid #8f7a66;
+  outline-offset: 4px;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .gridCell,
+  .grid::before {
+    transition: none;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .grid {
+    background: #8f7a66;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  }
+
+  .gridCell {
+    background: rgba(205, 193, 180, 0.25);
+  }
+
+  .grid:focus-within {
+    outline-color: #bbada0;
+  }
+}

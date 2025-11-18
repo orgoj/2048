@@ -1,0 +1,211 @@
+/* Base tile styles */
+.tile {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  font-weight: 700;
+  transition: all 0.15s ease-in-out;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  /* Position using CSS custom properties */
+  top: calc(var(--row) * (var(--cell-size) + var(--gap)));
+  left: calc(var(--col) * (var(--cell-size) + var(--gap)));
+  width: calc(var(--cell-size) - var(--gap));
+  height: calc(var(--cell-size) - var(--gap));
+
+  /* Smooth animations */
+  animation: none;
+}
+
+/* Tile value text */
+.tileValue {
+  user-select: none;
+  line-height: 1;
+}
+
+/* Font sizes based on value */
+.fontLarge {
+  font-size: 3rem;
+}
+
+.fontMedium {
+  font-size: 2.5rem;
+}
+
+.fontSmall {
+  font-size: 2rem;
+}
+
+/* Responsive font sizes */
+@media (max-width: 768px) {
+  .fontLarge {
+    font-size: 2rem;
+  }
+
+  .fontMedium {
+    font-size: 1.75rem;
+  }
+
+  .fontSmall {
+    font-size: 1.5rem;
+  }
+}
+
+/* Spawn animation for new tiles */
+@keyframes spawn {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.tileNew {
+  animation: spawn 0.2s ease-out;
+}
+
+/* Merge animation */
+@keyframes merge {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.15);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.tileMerged {
+  animation: merge 0.2s ease-out;
+  z-index: 10;
+}
+
+/* Tile colors based on value */
+.tile2 {
+  background: linear-gradient(135deg, #eee4da 0%, #ede0c8 100%);
+  color: #776e65;
+  box-shadow: 0 2px 8px rgba(238, 228, 218, 0.4);
+}
+
+.tile4 {
+  background: linear-gradient(135deg, #ede0c8 0%, #eee1c9 100%);
+  color: #776e65;
+  box-shadow: 0 2px 8px rgba(237, 224, 200, 0.4);
+}
+
+.tile8 {
+  background: linear-gradient(135deg, #f2b179 0%, #f59563 100%);
+  color: #f9f6f2;
+  box-shadow: 0 2px 8px rgba(242, 177, 121, 0.4);
+}
+
+.tile16 {
+  background: linear-gradient(135deg, #f59563 0%, #f67c5f 100%);
+  color: #f9f6f2;
+  box-shadow: 0 2px 8px rgba(245, 149, 99, 0.4);
+}
+
+.tile32 {
+  background: linear-gradient(135deg, #f67c5f 0%, #f65e3b 100%);
+  color: #f9f6f2;
+  box-shadow: 0 2px 8px rgba(246, 124, 95, 0.4);
+}
+
+.tile64 {
+  background: linear-gradient(135deg, #f65e3b 0%, #edcf72 100%);
+  color: #f9f6f2;
+  box-shadow: 0 2px 12px rgba(246, 94, 59, 0.5);
+}
+
+.tile128 {
+  background: linear-gradient(135deg, #edcf72 0%, #edcc61 100%);
+  color: #f9f6f2;
+  box-shadow: 0 3px 12px rgba(237, 207, 114, 0.5);
+}
+
+.tile256 {
+  background: linear-gradient(135deg, #edcc61 0%, #edc850 100%);
+  color: #f9f6f2;
+  box-shadow: 0 3px 12px rgba(237, 204, 97, 0.5);
+}
+
+.tile512 {
+  background: linear-gradient(135deg, #edc850 0%, #edc53f 100%);
+  color: #f9f6f2;
+  box-shadow: 0 3px 16px rgba(237, 200, 80, 0.6);
+}
+
+.tile1024 {
+  background: linear-gradient(135deg, #edc53f 0%, #edc22e 100%);
+  color: #f9f6f2;
+  box-shadow: 0 4px 16px rgba(237, 197, 63, 0.6);
+}
+
+.tile2048 {
+  background: linear-gradient(135deg, #edc22e 0%, #3c3a32 100%);
+  color: #f9f6f2;
+  box-shadow: 0 4px 20px rgba(237, 194, 46, 0.7);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+/* 2048+ tiles (4096, 8192, etc.) */
+.tile2048Plus {
+  background: linear-gradient(135deg, #3c3a32 0%, #1a1a1a 100%);
+  color: #f9f6f2;
+  box-shadow: 0 4px 20px rgba(60, 58, 50, 0.7);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+/* Pulse animation for high-value tiles */
+@keyframes pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow: 0 4px 20px rgba(237, 194, 46, 0.7);
+  }
+  50% {
+    transform: scale(1.02);
+    box-shadow: 0 6px 24px rgba(237, 194, 46, 0.9);
+  }
+}
+
+/* Default fallback */
+.tileDefault {
+  background: linear-gradient(135deg, #3c3a32 0%, #1a1a1a 100%);
+  color: #f9f6f2;
+  box-shadow: 0 2px 8px rgba(60, 58, 50, 0.4);
+}
+
+/* Hover effect for tiles */
+.tile:hover {
+  transform: scale(1.05);
+}
+
+/* Accessibility - High contrast mode */
+@media (prefers-contrast: high) {
+  .tile {
+    border: 2px solid currentColor;
+  }
+}
+
+/* Reduced motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .tile,
+  .tileNew,
+  .tileMerged,
+  .tile2048,
+  .tile2048Plus {
+    animation: none;
+    transition: none;
+  }
+}
