@@ -80,6 +80,12 @@ export default function App() {
     [move, isGameOver]
   )
 
+  // Check if any modal is open
+  const anyModalOpen =
+    activeModal !== null ||
+    shareModalOpen ||
+    ((isGameOver || hasWon) && gameState.status !== GameStatus.Playing)
+
   // Keyboard controls
   useKeyboard({
     onMove: handleMove,
@@ -88,13 +94,13 @@ export default function App() {
         undo()
       }
     },
-    enabled: activeModal === null, // Disable when modal is open
+    enabled: !anyModalOpen, // Disable when any modal is open
   })
 
   // Touch controls for mobile
   const touchHandlers = useTouch({
     onMove: handleMove,
-    enabled: activeModal === null,
+    enabled: !anyModalOpen,
   })
 
   // Prevent default browser behaviors

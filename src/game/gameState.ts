@@ -27,6 +27,7 @@ function cloneGameState(state: GameState, includePreviousStates = false): GameSt
       : [],
     config: { ...state.config },
     moveCount: state.moveCount,
+    wonAndContinued: state.wonAndContinued,
   }
 }
 
@@ -119,7 +120,12 @@ export function move(state: GameState, direction: Direction): MoveResult {
   const newScore = state.score + scoreGained
 
   // Determine new game status
-  const newStatus = determineGameStatus(gridWithNewTile, state.config.targetValue, state.status)
+  const newStatus = determineGameStatus(
+    gridWithNewTile,
+    state.config.targetValue,
+    state.status,
+    state.wonAndContinued
+  )
 
   // Save current state to previousStates for undo
   const stateCopy = cloneGameState(state, false)
@@ -136,6 +142,7 @@ export function move(state: GameState, direction: Direction): MoveResult {
     previousStates,
     config: state.config,
     moveCount: state.moveCount + 1,
+    wonAndContinued: state.wonAndContinued,
   }
 
   return {
@@ -190,6 +197,7 @@ export function continueAfterWin(state: GameState): GameState {
   return {
     ...state,
     status: GameStatus.Playing,
+    wonAndContinued: true,
   }
 }
 

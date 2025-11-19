@@ -343,11 +343,20 @@ export function hasWon(grid: (Tile | null)[][], targetValue: number): boolean {
 export function determineGameStatus(
   grid: (Tile | null)[][],
   targetValue: number,
-  currentStatus: GameStatus
+  currentStatus: GameStatus,
+  wonAndContinued?: boolean
 ): GameStatus {
   // Once won, stay won (unless game is reset)
   if (currentStatus === GameStatus.Won) {
     return GameStatus.Won
+  }
+
+  // If player already won and continued, don't show win again
+  if (wonAndContinued) {
+    if (!hasMovesAvailable(grid)) {
+      return GameStatus.Lost
+    }
+    return GameStatus.Playing
   }
 
   if (hasWon(grid, targetValue)) {

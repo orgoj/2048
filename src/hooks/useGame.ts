@@ -11,6 +11,7 @@ import {
   move as performMove,
   undo as performUndo,
   resetGame,
+  continueAfterWin,
   canUndo as checkCanUndo,
   serializeGameState,
   deserializeGameState,
@@ -156,15 +157,7 @@ export function useGame(externalConfig?: GameConfig): UseGameReturn {
    * Continue playing after winning
    */
   const continueGame = useCallback(() => {
-    setGameState(currentState => {
-      if (currentState.status !== GameStatus.Won) {
-        return currentState
-      }
-      return {
-        ...currentState,
-        status: GameStatus.Playing,
-      }
-    })
+    setGameState(currentState => continueAfterWin(currentState))
   }, [])
 
   return {

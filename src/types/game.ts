@@ -67,6 +67,7 @@ export interface GameState {
   previousStates: GameState[] // For undo functionality
   config: GameConfig
   moveCount: number // Number of moves made
+  wonAndContinued?: boolean // True if player won and chose to keep playing
 }
 
 /**
