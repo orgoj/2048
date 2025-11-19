@@ -219,6 +219,7 @@ export default function App() {
             isWin={hasWon}
             score={gameState.score}
             moves={gameState.moveCount}
+            targetValue={config.targetValue}
             onNewGame={newGame}
             onContinue={hasWon ? continueGame : undefined}
             onShare={handleShare}
