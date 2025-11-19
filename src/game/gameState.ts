@@ -28,6 +28,8 @@ function cloneGameState(state: GameState, includePreviousStates = false): GameSt
     config: { ...state.config },
     moveCount: state.moveCount,
     wonAndContinued: state.wonAndContinued,
+    startTime: state.startTime,
+    duration: state.duration,
   }
 }
 
@@ -66,6 +68,7 @@ export function initializeGame(config: GameConfig = DEFAULT_GAME_CONFIG): GameSt
     previousStates: [],
     config,
     moveCount: 0,
+    startTime: Date.now(),
   }
 
   return initialState
@@ -134,6 +137,14 @@ export function move(state: GameState, direction: Direction): MoveResult {
     state.config.maxUndoStates || 10
   )
 
+  // Calculate duration if game just ended
+  const gameJustEnded =
+    state.status === GameStatus.Playing &&
+    (newStatus === GameStatus.Won || newStatus === GameStatus.Lost)
+  const duration = gameJustEnded
+    ? Math.round((Date.now() - state.startTime) / 1000)
+    : state.duration
+
   // Create new state
   const newState: GameState = {
     grid: gridWithNewTile,
@@ -143,6 +154,8 @@ export function move(state: GameState, direction: Direction): MoveResult {
     config: state.config,
     moveCount: state.moveCount + 1,
     wonAndContinued: state.wonAndContinued,
+    startTime: state.startTime,
+    duration,
   }
 
   return {

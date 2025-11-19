@@ -207,9 +207,19 @@ function loadGameState(): GameState | null {
 function updateStatsAfterGameEnd(state: GameState): void {
   // Import stats functions lazily to avoid circular dependencies
   import('../services/storage')
-    .then(({ updateStatsAfterGame }) => {
+    .then(({ updateStatsAfterGame, saveHighScore }) => {
       const isWin = state.status === GameStatus.Won
-      updateStatsAfterGame(state.score, state.moveCount, isWin)
+      updateStatsAfterGame(state.score, state.moveCount, isWin, state.duration)
+
+      // Save high score with duration
+      saveHighScore({
+        score: state.score,
+        targetValue: state.config.targetValue,
+        gridSize: state.config.gridSize,
+        timestamp: Date.now(),
+        moveCount: state.moveCount,
+        duration: state.duration,
+      })
     })
     .catch(error => {
       console.error('Failed to update stats:', error)

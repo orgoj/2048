@@ -143,6 +143,13 @@ export default function Stats({ stats, highScores, onReset }: StatsProps) {
     })
   }
 
+  const formatDuration = (seconds?: number) => {
+    if (!seconds) return '-'
+    const mins = Math.floor(seconds / 60)
+    const secs = seconds % 60
+    return `${mins}:${secs.toString().padStart(2, '0')}`
+  }
+
   const getProgressBarWidth = (value: number, max: number) => {
     return Math.min((value / max) * 100, 100)
   }
@@ -374,6 +381,7 @@ export default function Stats({ stats, highScores, onReset }: StatsProps) {
               <div className={styles.tableCell}>Grid</div>
               <div className={styles.tableCell}>Target</div>
               <div className={styles.tableCell}>Moves</div>
+              <div className={styles.tableCell}>Time</div>
               <div className={styles.tableCell}>Date</div>
             </div>
             {filteredHighScores.slice(0, 10).map((entry, index) => (
@@ -394,6 +402,7 @@ export default function Stats({ stats, highScores, onReset }: StatsProps) {
                 </div>
                 <div className={styles.tableCell}>{entry.targetValue.toLocaleString()}</div>
                 <div className={styles.tableCell}>{entry.moveCount}</div>
+                <div className={styles.tableCell}>{formatDuration(entry.duration)}</div>
                 <div className={styles.tableCell}>{formatDate(entry.timestamp)}</div>
               </div>
             ))}
