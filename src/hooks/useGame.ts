@@ -11,6 +11,7 @@ import {
   move as performMove,
   undo as performUndo,
   resetGame,
+  continueAfterWin,
   canUndo as checkCanUndo,
   serializeGameState,
   deserializeGameState,
@@ -42,7 +43,7 @@ export interface UseGameReturn {
   newGame: () => void
   continueGame: () => void
   canUndo: boolean
-  config: GameConfig
+  config: GameLogicConfig
   isGameOver: boolean
   hasWon: boolean
 }
@@ -58,25 +59,48 @@ export interface UseGameReturn {
  * - Auto-save to localStorage
  * - Statistics updates
  *
+ * @param externalConfig - Optional external config to use instead of URL hash
  * @returns Game state and control functions
  */
-export function useGame(): UseGameReturn {
-  const [config] = useState<GameConfig>(() => parseConfigFromHash())
+export function useGame(externalConfig?: GameConfig): UseGameReturn {
+  const [config, setConfig] = useState<GameConfig>(() => externalConfig || parseConfigFromHash())
   const [gameState, setGameState] = useState<GameState>(() => {
+    const configToUse = externalConfig || parseConfigFromHash()
     // Try to load from localStorage first
     const saved = loadGameState()
     if (
       saved &&
-      saved.config.gridSize === config.size &&
-      saved.config.targetValue === config.target
+      saved.config.gridSize === configToUse.size &&
+      saved.config.targetValue === configToUse.target
     ) {
       return saved
     }
     // Otherwise initialize new game
-    return initializeGame(convertToGameLogicConfig(config))
+    return initializeGame(convertToGameLogicConfig(configToUse))
   })
 
   const previousStatusRef = useRef<GameStatus>(gameState.status)
+  const previousConfigRef = useRef<{ size: number; target: number }>({
+    size: config.size,
+    target: config.target,
+  })
+
+  // Update config when external config changes
+  useEffect(() => {
+    if (externalConfig) {
+      setConfig(externalConfig)
+    }
+  }, [externalConfig])
+
+  // Restart game when config changes significantly (size or target)
+  useEffect(() => {
+    const prevConfig = previousConfigRef.current
+    if (config.size !== prevConfig.size || config.target !== prevConfig.target) {
+      // Config changed - start a new game with new config
+      setGameState(initializeGame(convertToGameLogicConfig(config)))
+      previousConfigRef.current = { size: config.size, target: config.target }
+    }
+  }, [config])
 
   // Save game state to localStorage whenever it changes
   useEffect(() => {
@@ -133,15 +157,7 @@ export function useGame(): UseGameReturn {
    * Continue playing after winning
    */
   const continueGame = useCallback(() => {
-    setGameState(currentState => {
-      if (currentState.status !== GameStatus.Won) {
-        return currentState
-      }
-      return {
-        ...currentState,
-        status: GameStatus.Playing,
-      }
-    })
+    setGameState(currentState => continueAfterWin(currentState))
   }, [])
 
   return {
@@ -151,7 +167,7 @@ export function useGame(): UseGameReturn {
     newGame,
     continueGame,
     canUndo: checkCanUndo(gameState),
-    config,
+    config: convertToGameLogicConfig(config),
     isGameOver: gameState.status === GameStatus.Lost,
     hasWon: gameState.status === GameStatus.Won,
   }
@@ -191,9 +207,19 @@ function loadGameState(): GameState | null {
 function updateStatsAfterGameEnd(state: GameState): void {
   // Import stats functions lazily to avoid circular dependencies
   import('../services/storage')
-    .then(({ updateStatsAfterGame }) => {
+    .then(({ updateStatsAfterGame, saveHighScore }) => {
       const isWin = state.status === GameStatus.Won
-      updateStatsAfterGame(state.score, state.moveCount, isWin)
+      updateStatsAfterGame(state.score, state.moveCount, isWin, state.duration)
+
+      // Save high score with duration
+      saveHighScore({
+        score: state.score,
+        targetValue: state.config.targetValue,
+        gridSize: state.config.gridSize,
+        timestamp: Date.now(),
+        moveCount: state.moveCount,
+        duration: state.duration,
+      })
     })
     .catch(error => {
       console.error('Failed to update stats:', error)

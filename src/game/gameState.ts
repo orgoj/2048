@@ -27,6 +27,9 @@ function cloneGameState(state: GameState, includePreviousStates = false): GameSt
       : [],
     config: { ...state.config },
     moveCount: state.moveCount,
+    wonAndContinued: state.wonAndContinued,
+    startTime: state.startTime,
+    duration: state.duration,
   }
 }
 
@@ -65,6 +68,7 @@ export function initializeGame(config: GameConfig = DEFAULT_GAME_CONFIG): GameSt
     previousStates: [],
     config,
     moveCount: 0,
+    startTime: Date.now(),
   }
 
   return initialState
@@ -119,7 +123,12 @@ export function move(state: GameState, direction: Direction): MoveResult {
   const newScore = state.score + scoreGained
 
   // Determine new game status
-  const newStatus = determineGameStatus(gridWithNewTile, state.config.targetValue, state.status)
+  const newStatus = determineGameStatus(
+    gridWithNewTile,
+    state.config.targetValue,
+    state.status,
+    state.wonAndContinued
+  )
 
   // Save current state to previousStates for undo
   const stateCopy = cloneGameState(state, false)
@@ -127,6 +136,14 @@ export function move(state: GameState, direction: Direction): MoveResult {
     0,
     state.config.maxUndoStates || 10
   )
+
+  // Calculate duration if game just ended
+  const gameJustEnded =
+    state.status === GameStatus.Playing &&
+    (newStatus === GameStatus.Won || newStatus === GameStatus.Lost)
+  const duration = gameJustEnded
+    ? Math.round((Date.now() - state.startTime) / 1000)
+    : state.duration
 
   // Create new state
   const newState: GameState = {
@@ -136,6 +153,9 @@ export function move(state: GameState, direction: Direction): MoveResult {
     previousStates,
     config: state.config,
     moveCount: state.moveCount + 1,
+    wonAndContinued: state.wonAndContinued,
+    startTime: state.startTime,
+    duration,
   }
 
   return {
@@ -190,6 +210,7 @@ export function continueAfterWin(state: GameState): GameState {
   return {
     ...state,
     status: GameStatus.Playing,
+    wonAndContinued: true,
   }
 }
 

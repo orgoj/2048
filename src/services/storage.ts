@@ -41,6 +41,7 @@ export interface HighScoreEntry {
   gridSize: number
   timestamp: number
   moveCount: number
+  duration?: number // Game duration in seconds
 }
 
 /**
@@ -333,7 +334,12 @@ export function loadStats(): GameStats {
 /**
  * Update statistics after a game ends
  */
-export function updateStatsAfterGame(score: number, moves: number, isWin: boolean): void {
+export function updateStatsAfterGame(
+  score: number,
+  moves: number,
+  isWin: boolean,
+  duration?: number
+): void {
   const stats = loadStats()
 
   stats.totalGames += 1
@@ -353,6 +359,10 @@ export function updateStatsAfterGame(score: number, moves: number, isWin: boolea
   stats.averageScore = Math.round(stats.totalScore / stats.totalGames)
   stats.averageMoves = Math.round(stats.totalMoves / stats.totalGames)
   stats.lastPlayed = Date.now()
+
+  // Note: duration is passed but not stored in global stats
+  // It's stored per high score entry instead
+  void duration // Silence unused variable warning
 
   saveStats(stats)
 }

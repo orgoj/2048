@@ -6,6 +6,7 @@ interface GameModalProps {
   isWin: boolean
   score: number
   moves?: number
+  targetValue: number
   onNewGame: () => void
   onContinue?: () => void
   onShare?: () => void
@@ -20,6 +21,7 @@ export const GameModal: React.FC<GameModalProps> = ({
   isWin,
   score,
   moves,
+  targetValue,
   onNewGame,
   onContinue,
   onShare,
@@ -76,12 +78,13 @@ export const GameModal: React.FC<GameModalProps> = ({
       onShare()
     } else {
       // Default share functionality
-      const text = `I scored ${score.toLocaleString()} points in 2048!${moves ? ` Completed in ${moves} moves.` : ''}`
+      const gameName = `${targetValue} Game`
+      const text = `I scored ${score.toLocaleString()} points in ${gameName}!${moves ? ` Completed in ${moves} moves.` : ''}`
 
       if (navigator.share) {
         navigator
           .share({
-            title: '2048 Game Score',
+            title: `${gameName} Score`,
             text: text,
           })
           .catch(() => {

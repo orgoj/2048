@@ -1,0 +1,90 @@
+/* ThemeSwitcher container */
+.themeSwitcher {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.themeLabel {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  letter-spacing: 0.5px;
+}
+
+.themeOptions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.4rem;
+}
+
+.themeButton {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-md);
+  border: 2px solid transparent;
+  background: var(--bg-container);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
+  font-size: 1.1rem;
+}
+
+.themeButton:hover {
+  transform: scale(1.1);
+  border-color: var(--text-secondary);
+}
+
+.themeButton.active {
+  border-color: var(--btn-primary-bg);
+  background: var(--bg-page);
+  box-shadow: 0 0 0 2px var(--btn-primary-bg);
+}
+
+.themeIcon {
+  line-height: 1;
+}
+
+/* Responsive design */
+@media (max-width: 480px) {
+  .themeButton {
+    width: 32px;
+    height: 32px;
+    font-size: 1rem;
+  }
+
+  .themeOptions {
+    gap: 0.3rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .themeButton {
+    width: 28px;
+    height: 28px;
+    font-size: 0.9rem;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .themeButton {
+    transition: none;
+  }
+
+  .themeButton:hover {
+    transform: none;
+  }
+}
+
+/* Focus visible */
+.themeButton:focus-visible {
+  outline: 2px solid var(--btn-primary-bg);
+  outline-offset: 2px;
+}

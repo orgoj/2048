@@ -309,6 +309,59 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
+/* Grid Filter Section - at the top */
+.gridFilterSection {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+  padding: 16px;
+  background: #f8f9fa;
+  border-radius: 12px;
+  flex-wrap: wrap;
+}
+
+.filterLabel {
+  font-weight: 600;
+  color: #495057;
+  font-size: 14px;
+}
+
+.gridFilter {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.filterButton {
+  padding: 8px 14px;
+  border: 2px solid #e9ecef;
+  background: white;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #495057;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.filterButton:hover:not(:disabled) {
+  border-color: #667eea;
+  color: #667eea;
+}
+
+.filterButton.active {
+  background: #667eea;
+  border-color: #667eea;
+  color: white;
+}
+
+.filterButton.disabled,
+.filterButton:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
 .table {
   display: flex;
   flex-direction: column;

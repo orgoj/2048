@@ -67,6 +67,9 @@ export interface GameState {
   previousStates: GameState[] // For undo functionality
   config: GameConfig
   moveCount: number // Number of moves made
+  wonAndContinued?: boolean // True if player won and chose to keep playing
+  startTime: number // Timestamp when game started (ms)
+  duration?: number // Total game duration in seconds (set when game ends)
 }
 
 /**

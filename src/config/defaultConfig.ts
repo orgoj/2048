@@ -8,7 +8,17 @@ import type { SpawnConfig } from '../types/game'
 /**
  * Available color themes
  */
-export const THEMES = ['classic', 'dark', 'neon', 'ocean'] as const
+export const THEMES = [
+  'classic',
+  'dark',
+  'neon',
+  'ocean',
+  'sunset',
+  'forest',
+  'midnight',
+  'candy',
+  'pastel',
+] as const
 export type Theme = (typeof THEMES)[number]
 
 /**
@@ -30,9 +40,9 @@ export const VALID_GRID_SIZES = [3, 4, 5, 6] as const
 export type ValidGridSize = (typeof VALID_GRID_SIZES)[number]
 
 /**
- * Common target values
+ * Common target values - includes smaller values for 3x3 grids
  */
-export const VALID_TARGET_VALUES = [2048, 4096, 8192, 16384] as const
+export const VALID_TARGET_VALUES = [128, 256, 512, 1024, 2048, 4096, 8192, 16384] as const
 export type ValidTargetValue = (typeof VALID_TARGET_VALUES)[number]
 
 /**
@@ -75,7 +85,7 @@ export const DEFAULT_CONFIG: GameConfig = {
   size: 4,
   target: 2048,
   spawn: DEFAULT_SPAWN_CONFIG,
-  theme: 'classic',
+  theme: 'ocean',
   mode: 'classic',
   animSpeed: 'normal',
 }
