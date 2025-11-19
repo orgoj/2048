@@ -309,17 +309,22 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.highScoresHeader {
+/* Grid Filter Section - at the top */
+.gridFilterSection {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
   gap: 12px;
-  margin-bottom: 16px;
+  margin-bottom: 24px;
+  padding: 16px;
+  background: #f8f9fa;
+  border-radius: 12px;
+  flex-wrap: wrap;
 }
 
-.highScoresHeader .sectionTitle {
-  margin-bottom: 0;
+.filterLabel {
+  font-weight: 600;
+  color: #495057;
+  font-size: 14px;
 }
 
 .gridFilter {
@@ -329,18 +334,18 @@
 }
 
 .filterButton {
-  padding: 6px 12px;
+  padding: 8px 14px;
   border: 2px solid #e9ecef;
   background: white;
-  border-radius: 6px;
-  font-size: 12px;
+  border-radius: 8px;
+  font-size: 13px;
   font-weight: 600;
   color: #495057;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
-.filterButton:hover {
+.filterButton:hover:not(:disabled) {
   border-color: #667eea;
   color: #667eea;
 }
@@ -349,6 +354,12 @@
   background: #667eea;
   border-color: #667eea;
   color: white;
+}
+
+.filterButton.disabled,
+.filterButton:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
 }
 
 .table {

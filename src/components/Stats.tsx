@@ -22,8 +22,6 @@ export default function Stats({ stats, highScores, onReset }: StatsProps) {
   const [importError, setImportError] = useState<string | null>(null)
   const [gridSizeFilter, setGridSizeFilter] = useState<number | 'all'>('all')
 
-  const winRate = stats.totalGames > 0 ? ((stats.wins / stats.totalGames) * 100).toFixed(1) : '0.0'
-
   // Filter high scores by grid size
   const filteredHighScores = useMemo(() => {
     if (gridSizeFilter === 'all') {
@@ -37,6 +35,54 @@ export default function Stats({ stats, highScores, onReset }: StatsProps) {
     const sizes = new Set(highScores.map(hs => hs.gridSize))
     return VALID_GRID_SIZES.filter(size => sizes.has(size))
   }, [highScores])
+
+  // Calculate filtered stats from high scores
+  const filteredStats = useMemo(() => {
+    if (gridSizeFilter === 'all') {
+      return {
+        totalGames: stats.totalGames,
+        wins: stats.wins,
+        losses: stats.losses,
+        bestScore: stats.bestScore,
+        averageScore: stats.averageScore,
+        totalMoves: stats.totalMoves,
+        averageMoves: stats.averageMoves,
+      }
+    }
+
+    // Calculate stats from filtered high scores
+    const scores = filteredHighScores
+    if (scores.length === 0) {
+      return {
+        totalGames: 0,
+        wins: 0,
+        losses: 0,
+        bestScore: 0,
+        averageScore: 0,
+        totalMoves: 0,
+        averageMoves: 0,
+      }
+    }
+
+    const totalScore = scores.reduce((sum, hs) => sum + hs.score, 0)
+    const totalMoves = scores.reduce((sum, hs) => sum + hs.moveCount, 0)
+    const bestScore = Math.max(...scores.map(hs => hs.score))
+
+    return {
+      totalGames: scores.length,
+      wins: scores.length, // Each high score entry represents a completed game
+      losses: 0, // We don't track losses per grid size
+      bestScore,
+      averageScore: Math.round(totalScore / scores.length),
+      totalMoves,
+      averageMoves: Math.round(totalMoves / scores.length),
+    }
+  }, [gridSizeFilter, filteredHighScores, stats])
+
+  const winRate =
+    filteredStats.totalGames > 0
+      ? ((filteredStats.wins / filteredStats.totalGames) * 100).toFixed(1)
+      : '0.0'
 
   const handleExport = () => {
     try {
@@ -102,7 +148,7 @@ export default function Stats({ stats, highScores, onReset }: StatsProps) {
   }
 
   // Find max score for progress bar scaling
-  const maxScore = Math.max(stats.bestScore, ...filteredHighScores.map(hs => hs.score), 1)
+  const maxScore = Math.max(filteredStats.bestScore, ...filteredHighScores.map(hs => hs.score), 1)
 
   return (
     <div className={styles.container}>
@@ -158,6 +204,29 @@ export default function Stats({ stats, highScores, onReset }: StatsProps) {
         </div>
       )}
 
+      {/* Grid Size Filter - at the top */}
+      <div className={styles.gridFilterSection}>
+        <span className={styles.filterLabel}>Grid Size:</span>
+        <div className={styles.gridFilter}>
+          <button
+            className={`${styles.filterButton} ${gridSizeFilter === 'all' ? styles.active : ''}`}
+            onClick={() => setGridSizeFilter('all')}
+          >
+            All
+          </button>
+          {VALID_GRID_SIZES.map(size => (
+            <button
+              key={size}
+              className={`${styles.filterButton} ${gridSizeFilter === size ? styles.active : ''} ${!availableGridSizes.includes(size) ? styles.disabled : ''}`}
+              onClick={() => setGridSizeFilter(size)}
+              disabled={!availableGridSizes.includes(size) && gridSizeFilter !== size}
+            >
+              {size}×{size}
+            </button>
+          ))}
+        </div>
+      </div>
+
       {/* Overview Stats */}
       <div className={styles.statsGrid}>
         <div className={styles.statCard}>
@@ -172,7 +241,7 @@ export default function Stats({ stats, highScores, onReset }: StatsProps) {
             </svg>
           </div>
           <div className={styles.statContent}>
-            <div className={styles.statValue}>{stats.totalGames}</div>
+            <div className={styles.statValue}>{filteredStats.totalGames}</div>
             <div className={styles.statLabel}>Total Games</div>
           </div>
         </div>
@@ -189,7 +258,7 @@ export default function Stats({ stats, highScores, onReset }: StatsProps) {
             </svg>
           </div>
           <div className={styles.statContent}>
-            <div className={styles.statValue}>{stats.wins}</div>
+            <div className={styles.statValue}>{filteredStats.wins}</div>
             <div className={styles.statLabel}>Wins</div>
           </div>
         </div>
@@ -206,7 +275,7 @@ export default function Stats({ stats, highScores, onReset }: StatsProps) {
             </svg>
           </div>
           <div className={styles.statContent}>
-            <div className={styles.statValue}>{stats.losses}</div>
+            <div className={styles.statValue}>{filteredStats.losses}</div>
             <div className={styles.statLabel}>Losses</div>
           </div>
         </div>
@@ -236,12 +305,12 @@ export default function Stats({ stats, highScores, onReset }: StatsProps) {
         <div className={styles.progressStat}>
           <div className={styles.progressHeader}>
             <span className={styles.progressLabel}>Best Score</span>
-            <span className={styles.progressValue}>{stats.bestScore.toLocaleString()}</span>
+            <span className={styles.progressValue}>{filteredStats.bestScore.toLocaleString()}</span>
           </div>
           <div className={styles.progressBar}>
             <div
               className={styles.progressFill}
-              style={{ width: `${getProgressBarWidth(stats.bestScore, maxScore)}%` }}
+              style={{ width: `${getProgressBarWidth(filteredStats.bestScore, maxScore)}%` }}
             />
           </div>
         </div>
@@ -249,12 +318,14 @@ export default function Stats({ stats, highScores, onReset }: StatsProps) {
         <div className={styles.progressStat}>
           <div className={styles.progressHeader}>
             <span className={styles.progressLabel}>Average Score</span>
-            <span className={styles.progressValue}>{stats.averageScore.toLocaleString()}</span>
+            <span className={styles.progressValue}>
+              {filteredStats.averageScore.toLocaleString()}
+            </span>
           </div>
           <div className={styles.progressBar}>
             <div
               className={styles.progressFill}
-              style={{ width: `${getProgressBarWidth(stats.averageScore, maxScore)}%` }}
+              style={{ width: `${getProgressBarWidth(filteredStats.averageScore, maxScore)}%` }}
             />
           </div>
         </div>
@@ -262,12 +333,14 @@ export default function Stats({ stats, highScores, onReset }: StatsProps) {
         <div className={styles.progressStat}>
           <div className={styles.progressHeader}>
             <span className={styles.progressLabel}>Total Moves</span>
-            <span className={styles.progressValue}>{stats.totalMoves.toLocaleString()}</span>
+            <span className={styles.progressValue}>
+              {filteredStats.totalMoves.toLocaleString()}
+            </span>
           </div>
           <div className={styles.progressBar}>
             <div
               className={styles.progressFill}
-              style={{ width: `${getProgressBarWidth(stats.totalMoves, stats.totalMoves)}%` }}
+              style={{ width: `${filteredStats.totalMoves > 0 ? 100 : 0}%` }}
             />
           </div>
         </div>
@@ -275,13 +348,15 @@ export default function Stats({ stats, highScores, onReset }: StatsProps) {
         <div className={styles.progressStat}>
           <div className={styles.progressHeader}>
             <span className={styles.progressLabel}>Average Moves</span>
-            <span className={styles.progressValue}>{stats.averageMoves.toLocaleString()}</span>
+            <span className={styles.progressValue}>
+              {filteredStats.averageMoves.toLocaleString()}
+            </span>
           </div>
           <div className={styles.progressBar}>
             <div
               className={styles.progressFill}
               style={{
-                width: `${getProgressBarWidth(stats.averageMoves, stats.totalMoves / Math.max(stats.totalGames, 1))}%`,
+                width: `${filteredStats.totalGames > 0 ? 100 : 0}%`,
               }}
             />
           </div>
@@ -290,28 +365,7 @@ export default function Stats({ stats, highScores, onReset }: StatsProps) {
 
       {/* High Scores Table */}
       <div className={styles.highScores}>
-        <div className={styles.highScoresHeader}>
-          <h3 className={styles.sectionTitle}>High Scores</h3>
-          {availableGridSizes.length > 0 && (
-            <div className={styles.gridFilter}>
-              <button
-                className={`${styles.filterButton} ${gridSizeFilter === 'all' ? styles.active : ''}`}
-                onClick={() => setGridSizeFilter('all')}
-              >
-                All
-              </button>
-              {availableGridSizes.map(size => (
-                <button
-                  key={size}
-                  className={`${styles.filterButton} ${gridSizeFilter === size ? styles.active : ''}`}
-                  onClick={() => setGridSizeFilter(size)}
-                >
-                  {size}×{size}
-                </button>
-              ))}
-            </div>
-          )}
-        </div>
+        <h3 className={styles.sectionTitle}>High Scores</h3>
         {filteredHighScores.length > 0 ? (
           <div className={styles.table}>
             <div className={styles.tableHeader}>
