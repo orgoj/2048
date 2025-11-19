@@ -14,12 +14,11 @@ import {
   DEFAULT_CONFIG,
   VALID_GRID_SIZES,
   VALID_TARGET_VALUES,
-  THEMES,
   GAME_MODES,
   ANIMATION_SPEEDS,
-  type Theme,
   type GameMode,
 } from '../config/defaultConfig'
+import { THEMES as THEME_CONFIGS, type Theme } from '../hooks/useTheme'
 import { serializeConfigToHash } from '../config/urlConfig'
 import styles from './Settings.module.css'
 
@@ -38,6 +37,11 @@ const THEME_PREVIEWS: Record<Theme, { primary: string; secondary: string; accent
   dark: { primary: '#2d3748', secondary: '#4a5568', accent: '#718096' },
   neon: { primary: '#ff00ff', secondary: '#00ffff', accent: '#ffff00' },
   ocean: { primary: '#0077be', secondary: '#4fc3f7', accent: '#81d4fa' },
+  sunset: { primary: '#ff6b6b', secondary: '#feca57', accent: '#ff9ff3' },
+  forest: { primary: '#26de81', secondary: '#20bf6b', accent: '#0fb9b1' },
+  midnight: { primary: '#6c5ce7', secondary: '#a29bfe', accent: '#dfe6e9' },
+  candy: { primary: '#fd79a8', secondary: '#e84393', accent: '#fdcb6e' },
+  pastel: { primary: '#a8e6cf', secondary: '#dcedc1', accent: '#ffd3b6' },
 }
 
 /**
@@ -184,28 +188,31 @@ export default function Settings({
           <section className={styles.section}>
             <h3 className={styles.sectionTitle}>Theme</h3>
             <div className={styles.themeSelector}>
-              {THEMES.map(theme => (
+              {THEME_CONFIGS.map(themeConfig => (
                 <button
-                  key={theme}
-                  className={`${styles.themeCard} ${config.theme === theme ? styles.active : ''}`}
-                  onClick={() => setConfig({ ...config, theme })}
+                  key={themeConfig.id}
+                  className={`${styles.themeCard} ${config.theme === themeConfig.id ? styles.active : ''}`}
+                  onClick={() =>
+                    setConfig({ ...config, theme: themeConfig.id as GameConfig['theme'] })
+                  }
+                  title={themeConfig.description}
                 >
                   <div className={styles.themePreview}>
                     <span
                       className={styles.themeColor}
-                      style={{ backgroundColor: THEME_PREVIEWS[theme].primary }}
+                      style={{ backgroundColor: THEME_PREVIEWS[themeConfig.id].primary }}
                     />
                     <span
                       className={styles.themeColor}
-                      style={{ backgroundColor: THEME_PREVIEWS[theme].secondary }}
+                      style={{ backgroundColor: THEME_PREVIEWS[themeConfig.id].secondary }}
                     />
                     <span
                       className={styles.themeColor}
-                      style={{ backgroundColor: THEME_PREVIEWS[theme].accent }}
+                      style={{ backgroundColor: THEME_PREVIEWS[themeConfig.id].accent }}
                     />
                   </div>
                   <span className={styles.themeName}>
-                    {theme.charAt(0).toUpperCase() + theme.slice(1)}
+                    {themeConfig.icon} {themeConfig.name}
                   </span>
                 </button>
               ))}

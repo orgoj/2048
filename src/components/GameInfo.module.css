@@ -1,0 +1,118 @@
+/* GameInfo container - below the game grid */
+.gameInfo {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.targetHint {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  font-weight: 400;
+  opacity: 0.8;
+  text-align: center;
+}
+
+.targetHint strong {
+  font-weight: 700;
+  color: var(--text-accent, #f59563);
+}
+
+/* Scores section */
+.scores {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+}
+
+/* Individual score box */
+.scoreBox {
+  position: relative;
+  background: var(--score-bg);
+  border-radius: 8px;
+  padding: 0.5rem 1.25rem;
+  min-width: 90px;
+  text-align: center;
+  box-shadow: var(--shadow-tile);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.scoreBox:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-tile-hover);
+}
+
+.scoreLabel {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--score-text);
+  letter-spacing: 0.5px;
+  margin-bottom: 0.2rem;
+  opacity: 0.9;
+}
+
+.scoreValue {
+  font-size: 1.4rem;
+  font-weight: 900;
+  color: var(--score-text);
+  line-height: 1;
+}
+
+/* Score increase animation */
+.scoreIncrease {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--text-accent, #f59563);
+  font-weight: 900;
+  font-size: 1.1rem;
+  pointer-events: none;
+  animation: scoreFloat 0.8s ease-out forwards;
+}
+
+@keyframes scoreFloat {
+  0% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-30px);
+  }
+}
+
+/* Responsive design */
+@media (max-width: 480px) {
+  .targetHint {
+    font-size: 0.8rem;
+  }
+
+  .scoreBox {
+    padding: 0.4rem 1rem;
+    min-width: 80px;
+  }
+
+  .scoreValue {
+    font-size: 1.2rem;
+  }
+
+  .scoreLabel {
+    font-size: 0.6rem;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .scoreBox,
+  .scoreIncrease {
+    animation: none;
+    transition: none;
+  }
+}

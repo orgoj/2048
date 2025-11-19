@@ -6,7 +6,17 @@
  */
 
 import { useState, useEffect, useCallback } from 'react'
-import { Header, Grid, Controls, GameModal, ShareModal, Settings, Stats } from './components'
+import {
+  Title,
+  Grid,
+  GameInfo,
+  Controls,
+  ThemeSwitcher,
+  GameModal,
+  ShareModal,
+  Settings,
+  Stats,
+} from './components'
 import {
   useGame,
   useKeyboard,
@@ -15,7 +25,7 @@ import {
   usePreventArrowKeyScrolling,
   useDisablePinchZoom,
 } from './hooks'
-import { useTheme } from './hooks/useTheme'
+import { useTheme, type Theme } from './hooks/useTheme'
 import { parseConfigFromHash, updateURLHash } from './config/urlConfig'
 import type { GameConfig } from './config/defaultConfig'
 import { Direction, GameStatus } from './types/game'
@@ -53,7 +63,7 @@ export default function App() {
     useGame()
 
   // Theme management
-  const [, setTheme] = useTheme()
+  const [currentTheme, setTheme] = useTheme()
 
   // Statistics
   const { stats, updateStats, resetStats } = useGameStats()
@@ -146,6 +156,14 @@ export default function App() {
     // The URL and theme will be updated by effects above
   }, [])
 
+  const handleThemeChange = useCallback(
+    (theme: Theme) => {
+      setTheme(theme)
+      setGameConfig(prev => ({ ...prev, theme: theme as GameConfig['theme'] }))
+    },
+    [setTheme]
+  )
+
   const handleResetStats = useCallback(() => {
     resetStats()
     const scores = getAllHighScores()
@@ -167,11 +185,14 @@ export default function App() {
   return (
     <div className={styles.app} {...touchHandlers}>
       <div className={styles.container}>
-        {/* Header with scores */}
-        <Header score={gameState.score} bestScore={stats.bestScore} targetValue={config.target} />
+        {/* Title only at top */}
+        <Title targetValue={config.target} />
 
         {/* Game Grid */}
         <Grid gameState={gameState} />
+
+        {/* Game Info with scores - below grid */}
+        <GameInfo score={gameState.score} bestScore={stats.bestScore} targetValue={config.target} />
 
         {/* Control Buttons */}
         <Controls
@@ -180,6 +201,9 @@ export default function App() {
           canUndo={canUndo}
           onOpenSettings={openSettings}
         />
+
+        {/* Theme Switcher on main screen */}
+        <ThemeSwitcher currentTheme={currentTheme} onThemeChange={handleThemeChange} />
 
         {/* Share Modal */}
         <ShareModal isOpen={shareModalOpen} onClose={closeShareModal} url={window.location.href} />
