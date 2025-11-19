@@ -28,7 +28,7 @@ import {
 import { useTheme, type Theme } from './hooks/useTheme'
 import { parseConfigFromHash, updateURLHash } from './config/urlConfig'
 import type { GameConfig } from './config/defaultConfig'
-import { Direction, GameStatus } from './types/game'
+import { type Direction, GameStatus } from './types/game'
 import { getAllHighScores } from './services/storage'
 import type { HighScoreEntry } from './services/storage'
 import styles from './App.module.css'
@@ -58,9 +58,9 @@ export default function App() {
 
   // ==================== Game State & Hooks ====================
 
-  // Main game state
+  // Main game state - pass gameConfig to sync with settings
   const { gameState, move, undo, newGame, continueGame, canUndo, config, isGameOver, hasWon } =
-    useGame()
+    useGame(gameConfig)
 
   // Theme management
   const [currentTheme, setTheme] = useTheme()
@@ -186,13 +186,17 @@ export default function App() {
     <div className={styles.app} {...touchHandlers}>
       <div className={styles.container}>
         {/* Title only at top */}
-        <Title targetValue={config.target} />
+        <Title targetValue={config.targetValue} />
 
         {/* Game Grid */}
         <Grid gameState={gameState} />
 
         {/* Game Info with scores - below grid */}
-        <GameInfo score={gameState.score} bestScore={stats.bestScore} targetValue={config.target} />
+        <GameInfo
+          score={gameState.score}
+          bestScore={stats.bestScore}
+          targetValue={config.targetValue}
+        />
 
         {/* Control Buttons */}
         <Controls
