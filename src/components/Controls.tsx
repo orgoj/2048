@@ -5,6 +5,7 @@ interface ControlsProps {
   onNewGame: () => void
   onUndo: () => void
   canUndo: boolean
+  onOpenStats?: () => void
   onOpenSettings?: () => void
   onToggleTheme?: () => void
   isDarkTheme?: boolean
@@ -12,12 +13,13 @@ interface ControlsProps {
 
 /**
  * Controls component with game action buttons
- * Includes new game, undo, settings, and theme toggle
+ * Includes new game, undo, stats, settings, and theme toggle
  */
 export const Controls: React.FC<ControlsProps> = ({
   onNewGame,
   onUndo,
   canUndo,
+  onOpenStats,
   onOpenSettings,
   onToggleTheme,
   isDarkTheme = false,
@@ -116,6 +118,28 @@ export const Controls: React.FC<ControlsProps> = ({
                 <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
               </svg>
             )}
+          </button>
+        )}
+
+        {onOpenStats && (
+          <button
+            className={`${styles.button} ${styles.buttonStats}`}
+            onClick={onOpenStats}
+            aria-label="View statistics"
+          >
+            <svg
+              className={styles.buttonIcon}
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+            </svg>
+            <span>Stats</span>
           </button>
         )}
 

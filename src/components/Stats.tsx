@@ -5,9 +5,10 @@
  * data management functionality (reset, export, import).
  */
 
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import type { GameStats, HighScoreEntry } from '../services/storage'
 import { exportData, importData } from '../services/storage'
+import { VALID_GRID_SIZES } from '../config/defaultConfig'
 import styles from './Stats.module.css'
 
 interface StatsProps {
@@ -19,8 +20,23 @@ interface StatsProps {
 export default function Stats({ stats, highScores, onReset }: StatsProps) {
   const [showResetConfirm, setShowResetConfirm] = useState(false)
   const [importError, setImportError] = useState<string | null>(null)
+  const [gridSizeFilter, setGridSizeFilter] = useState<number | 'all'>('all')
 
   const winRate = stats.totalGames > 0 ? ((stats.wins / stats.totalGames) * 100).toFixed(1) : '0.0'
+
+  // Filter high scores by grid size
+  const filteredHighScores = useMemo(() => {
+    if (gridSizeFilter === 'all') {
+      return highScores
+    }
+    return highScores.filter(hs => hs.gridSize === gridSizeFilter)
+  }, [highScores, gridSizeFilter])
+
+  // Get available grid sizes from high scores
+  const availableGridSizes = useMemo(() => {
+    const sizes = new Set(highScores.map(hs => hs.gridSize))
+    return VALID_GRID_SIZES.filter(size => sizes.has(size))
+  }, [highScores])
 
   const handleExport = () => {
     try {
@@ -86,7 +102,7 @@ export default function Stats({ stats, highScores, onReset }: StatsProps) {
   }
 
   // Find max score for progress bar scaling
-  const maxScore = Math.max(stats.bestScore, ...highScores.map(hs => hs.score), 1)
+  const maxScore = Math.max(stats.bestScore, ...filteredHighScores.map(hs => hs.score), 1)
 
   return (
     <div className={styles.container}>
@@ -274,8 +290,29 @@ export default function Stats({ stats, highScores, onReset }: StatsProps) {
 
       {/* High Scores Table */}
       <div className={styles.highScores}>
-        <h3 className={styles.sectionTitle}>High Scores</h3>
-        {highScores.length > 0 ? (
+        <div className={styles.highScoresHeader}>
+          <h3 className={styles.sectionTitle}>High Scores</h3>
+          {availableGridSizes.length > 0 && (
+            <div className={styles.gridFilter}>
+              <button
+                className={`${styles.filterButton} ${gridSizeFilter === 'all' ? styles.active : ''}`}
+                onClick={() => setGridSizeFilter('all')}
+              >
+                All
+              </button>
+              {availableGridSizes.map(size => (
+                <button
+                  key={size}
+                  className={`${styles.filterButton} ${gridSizeFilter === size ? styles.active : ''}`}
+                  onClick={() => setGridSizeFilter(size)}
+                >
+                  {size}×{size}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+        {filteredHighScores.length > 0 ? (
           <div className={styles.table}>
             <div className={styles.tableHeader}>
               <div className={styles.tableCell}>Rank</div>
@@ -285,7 +322,7 @@ export default function Stats({ stats, highScores, onReset }: StatsProps) {
               <div className={styles.tableCell}>Moves</div>
               <div className={styles.tableCell}>Date</div>
             </div>
-            {highScores.slice(0, 5).map((entry, index) => (
+            {filteredHighScores.slice(0, 10).map((entry, index) => (
               <div key={index} className={styles.tableRow}>
                 <div className={`${styles.tableCell} ${styles.rankCell}`}>
                   {index === 0 && (
@@ -318,7 +355,11 @@ export default function Stats({ stats, highScores, onReset }: StatsProps) {
               />
             </svg>
             <p>No high scores yet</p>
-            <span>Play some games to see your records here!</span>
+            <span>
+              {gridSizeFilter === 'all'
+                ? 'Play some games to see your records here!'
+                : `No scores for ${gridSizeFilter}×${gridSizeFilter} grid yet!`}
+            </span>
           </div>
         )}
       </div>
