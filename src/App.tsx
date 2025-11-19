@@ -66,7 +66,7 @@ export default function App() {
   const [currentTheme, setTheme] = useTheme()
 
   // Statistics
-  const { stats, updateStats, resetStats } = useGameStats()
+  const { stats, updateStats, resetStats, refreshStats } = useGameStats()
 
   // ==================== Input Handlers ====================
 
@@ -145,16 +145,26 @@ export default function App() {
 
   // Refresh high scores when game ends
   // This is a valid use of setState in effect - we're synchronizing with external storage
+  // Small delay to allow async storage save to complete
   useEffect(() => {
     if (gameState.status === GameStatus.Won || gameState.status === GameStatus.Lost) {
-      refreshHighScores() // eslint-disable-line react-hooks/set-state-in-effect
+      const timeoutId = setTimeout(() => {
+        refreshHighScores()
+        refreshStats()
+      }, 100)
+      return () => clearTimeout(timeoutId)
     }
-  }, [gameState.status, refreshHighScores])
+  }, [gameState.status, refreshHighScores, refreshStats])
 
   // ==================== Modal Handlers ====================
 
   const openSettings = useCallback(() => setActiveModal('settings'), [])
-  const openStats = useCallback(() => setActiveModal('stats'), [])
+  const openStats = useCallback(() => {
+    // Refresh stats and high scores when opening stats modal
+    refreshStats()
+    refreshHighScores()
+    setActiveModal('stats')
+  }, [refreshStats, refreshHighScores])
   const closeModal = useCallback(() => setActiveModal(null), [])
 
   const handleConfigChange = useCallback((newConfig: GameConfig) => {
