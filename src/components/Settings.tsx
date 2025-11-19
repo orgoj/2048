@@ -62,6 +62,7 @@ export default function Settings({
   const [config, setConfig] = useState<GameConfig>(currentConfig)
   const [soundEnabled, setSoundEnabled] = useState(true)
   const [copied, setCopied] = useState(false)
+  const [shareUrl, setShareUrl] = useState<string | null>(null)
 
   // Sync internal state with prop changes when modal opens
   useEffect(() => {
@@ -106,18 +107,20 @@ export default function Settings({
     setSoundEnabled(true)
   }
 
-  const handleShare = async () => {
+  const handleShare = () => {
     const hash = serializeConfigToHash(config)
     const url = `${window.location.origin}${window.location.pathname}${hash ? '#' + hash : ''}`
+    setShareUrl(url)
+  }
 
+  const handleCopyUrl = async () => {
+    if (!shareUrl) return
     try {
-      await navigator.clipboard.writeText(url)
+      await navigator.clipboard.writeText(shareUrl)
       setCopied(true)
       setTimeout(() => setCopied(false), 2000)
     } catch (err) {
       console.error('Failed to copy URL:', err)
-      // Fallback: show URL in alert
-      alert(`Share this URL:\n${url}`)
     }
   }
 
@@ -305,6 +308,51 @@ export default function Settings({
           </button>
         </div>
       </div>
+
+      {/* Share URL Dialog */}
+      {shareUrl && (
+        <div className={styles.shareOverlay} onClick={() => setShareUrl(null)}>
+          <div className={styles.shareDialog} onClick={e => e.stopPropagation()}>
+            <h3 className={styles.shareTitle}>Share Configuration</h3>
+            <p className={styles.shareDescription}>
+              Copy this URL to share your game configuration:
+            </p>
+            <div className={styles.shareUrlContainer}>
+              <input
+                type="text"
+                readOnly
+                value={shareUrl}
+                className={styles.shareUrlInput}
+                onClick={e => (e.target as HTMLInputElement).select()}
+              />
+              <button className={styles.copyButton} onClick={handleCopyUrl}>
+                {copied ? (
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M5 13l4 4L19 7"
+                    />
+                  </svg>
+                ) : (
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
+                    />
+                  </svg>
+                )}
+              </button>
+            </div>
+            <button className={styles.closeShareButton} onClick={() => setShareUrl(null)}>
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
